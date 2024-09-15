@@ -1,12 +1,12 @@
-package carRentalCompany.entity;
+package carRentalCompany.bean;
 
-public class Brand {
+public class BrandBean {
 
 	int brandId;
 	String brandName;
 	String brandNationality;
 
-	public Brand(int brandId, String brandName, String brandNationality) {
+	public BrandBean(int brandId, String brandName, String brandNationality) {
 		this.brandId = brandId;
 		this.brandName = brandName;
 		this.brandNationality = brandNationality;

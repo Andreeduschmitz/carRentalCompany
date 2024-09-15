@@ -1,12 +1,12 @@
-package carRentalCompany.entity;
+package carRentalCompany.bean;
 
-public class Seller {
+public class SellerBean {
 	int sellerId;
 	String sellerName;
 	String sellerPhone;
 	String sellerEmail;
 
-	public Seller(int sellerId, String sellerName, String sellerPhone, String sellerEmail) {
+	public SellerBean(int sellerId, String sellerName, String sellerPhone, String sellerEmail) {
 		this.sellerId = sellerId;
 		this.sellerName = sellerName;
 		this.sellerPhone = sellerPhone;

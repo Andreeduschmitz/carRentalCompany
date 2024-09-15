@@ -1,8 +1,8 @@
-package carRentalCompany.entity;
+package carRentalCompany.bean;
 
 import java.sql.Date;
 
-public class Rental {
+public class RentalBean {
 	int rentalId;
 	Date startDate;
 	Date endDate;
@@ -10,7 +10,7 @@ public class Rental {
 	int vehicleId;
 	int sellerId;
 
-	public Rental(int rentalId, Date startDate, Date endDate, int renovationId, int vehicleId, int sellerId) {
+	public RentalBean(int rentalId, Date startDate, Date endDate, int renovationId, int vehicleId, int sellerId) {
 		this.rentalId = rentalId;
 		this.startDate = startDate;
 		this.endDate = endDate;

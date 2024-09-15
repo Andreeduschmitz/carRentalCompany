@@ -1,6 +1,6 @@
-package carRentalCompany.entity;
+package carRentalCompany.bean;
 
-public class Adress {
+public class AdressBean {
 	int adressId;
 	int adressCep;
 	String adressStreet;
@@ -9,9 +9,8 @@ public class Adress {
 	String adressComplement;
 	int clientId;
 	
-	public Adress(int adressId, int adressCep, String adressStreet, String adressNeighborhood, int adressNumber,
+	public AdressBean(int adressId, int adressCep, String adressStreet, String adressNeighborhood, int adressNumber,
 			String adressComplement, int clientId) {
-		super();
 		this.adressId = adressId;
 		this.adressCep = adressCep;
 		this.adressStreet = adressStreet;

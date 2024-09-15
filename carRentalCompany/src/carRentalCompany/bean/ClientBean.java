@@ -1,13 +1,13 @@
-package carRentalCompany.entity;
+package carRentalCompany.bean;
 
-public class Client {
+public class ClientBean {
 	int clientId;
 	String clientName;
 	int clientCpf;
 	int clientPhone;
 	String clientEmail;
 
-	public Client(int clientId, String clientName, int clientCpf, int clientPhone, String clientEmail) {
+	public ClientBean(int clientId, String clientName, int clientCpf, int clientPhone, String clientEmail) {
 		this.clientId = clientId;
 		this.clientName = clientName;
 		this.clientCpf = clientCpf;
