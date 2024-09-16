@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import carRentalCompany.bean.AdressBean;
+import carRentalCompany.bean.AddressBean;
 import carRentalCompany.bean.ClientBean;
 import carRentalCompany.model.AdressModel;
 
@@ -35,12 +35,12 @@ public class AddressController {
             addressComplement = input.next();
         }
 
-        AdressBean address = new AdressBean(addressCep, addressStreet, addressNeighborhood, addressNumber, addressComplement, client.getClientId());
+        AddressBean address = new AddressBean(addressCep, addressStreet, addressNeighborhood, addressNumber, addressComplement, client.getClientId());
         AdressModel.create(address, con);
         System.out.println("Endereço criado com sucesso!");
     }
 
-    public void updateAddress(Connection con, AdressBean address) throws SQLException {
+    public void updateAddress(Connection con, AddressBean address) throws SQLException {
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - CEP\n2 - Rua\n3 - Bairro\n4 - Número\n5 - Complemento\n6 - Cancelar");
 
@@ -50,31 +50,31 @@ public class AddressController {
             case 1:
                 System.out.print("Digite o novo CEP: ");
                 int cep = input.nextInt();
-                address.setAdressCep(cep);
+                address.setAddressCep(cep);
                 break;
 
             case 2:
                 System.out.print("Digite o nome da rua atualizado: ");
                 String streetName = input.next();
-                address.setAdressStreet(streetName);
+                address.setAddressStreet(streetName);
                 break;
 
             case 3:
                 System.out.print("Digite o nome do bairro atualizado: ");
                 String neighborhoodName = input.next();
-                address.setAdressNeighborhood(neighborhoodName);
+                address.setAddressNeighborhood(neighborhoodName);
                 break;
 
             case 4:
                 System.out.print("Digite o número da residência atualizado: ");
                 int number = input.nextInt();
-                address.setAdressNumber(number);
+                address.setAddressNumber(number);
                 break;
 
             case 5:
                 System.out.print("Digite o complemento atualizado: ");
                 String complement = input.next();
-                address.setAdressComplement(complement);
+                address.setAddressComplement(complement);
                 break;
             
             default:
