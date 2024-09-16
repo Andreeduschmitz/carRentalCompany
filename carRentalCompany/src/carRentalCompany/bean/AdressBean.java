@@ -9,6 +9,16 @@ public class AdressBean {
 	String adressComplement;
 	int clientId;
 	
+	public AdressBean(int adressCep, String adressStreet, String adressNeighborhood, int adressNumber,
+			String adressComplement, int clientId) {
+		this.adressCep = adressCep;
+		this.adressStreet = adressStreet;
+		this.adressNeighborhood = adressNeighborhood;
+		this.adressNumber = adressNumber;
+		this.adressComplement = adressComplement;
+		this.clientId = clientId;
+	}
+
 	public AdressBean(int adressId, int adressCep, String adressStreet, String adressNeighborhood, int adressNumber,
 			String adressComplement, int clientId) {
 		this.adressId = adressId;

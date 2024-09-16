@@ -10,6 +10,15 @@ public class VehicleBean {
 	String vehicleBrand;
 	VehicleCategory vehicleCategory;
 	Double dailyValue;
+	
+	public VehicleBean(String vehiclePlate, String vehicleModel, int vehicleLaunchYear, String vehicleBrand, VehicleCategory vehicleCategory, Double dailyValue) {
+		this.vehiclePlate = vehiclePlate;
+		this.vehicleModel = vehicleModel;
+		this.vehicleLaunchYear = vehicleLaunchYear;
+		this.vehicleBrand = vehicleBrand;
+		this.vehicleCategory = vehicleCategory;
+		this.dailyValue = dailyValue;
+	}
 
 	public VehicleBean(int vehicleId, String vehiclePlate, String vehicleModel, int vehicleLaunchYear, String vehicleBrand, VehicleCategory vehicleCategory, Double dailyValue) {
 		this.vehicleId = vehicleId;
@@ -75,5 +84,12 @@ public class VehicleBean {
 
 	public void setDailyValue(Double dailyValue) {
 		this.dailyValue = dailyValue;
+	}
+
+	@Override
+	public String toString() {
+		return "VehicleBean [vehicleId=" + vehicleId + ", vehiclePlate=" + vehiclePlate + ", vehicleModel="
+				+ vehicleModel + ", vehicleLaunchYear=" + vehicleLaunchYear + ", vehicleBrand=" + vehicleBrand
+				+ ", vehicleCategory=" + vehicleCategory + ", dailyValue=" + dailyValue + "]";
 	}
 }

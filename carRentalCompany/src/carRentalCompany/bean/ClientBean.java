@@ -4,10 +4,18 @@ public class ClientBean {
 	int clientId;
 	String clientName;
 	int clientCpf;
-	int clientPhone;
+	String clientPhone;
 	String clientEmail;
 
-	public ClientBean(int clientId, String clientName, int clientCpf, int clientPhone, String clientEmail) {
+	public ClientBean(String clientName, int clientCpf, String clientPhone, String clientEmail) {
+		super();
+		this.clientName = clientName;
+		this.clientCpf = clientCpf;
+		this.clientPhone = clientPhone;
+		this.clientEmail = clientEmail;
+	}
+
+	public ClientBean(int clientId, String clientName, int clientCpf, String clientPhone, String clientEmail) {
 		this.clientId = clientId;
 		this.clientName = clientName;
 		this.clientCpf = clientCpf;
@@ -39,11 +47,11 @@ public class ClientBean {
 		this.clientCpf = clientCpf;
 	}
 
-	public int getClientPhone() {
+	public String getClientPhone() {
 		return clientPhone;
 	}
 
-	public void setClientPhone(int clientPhone) {
+	public void setClientPhone(String clientPhone) {
 		this.clientPhone = clientPhone;
 	}
 

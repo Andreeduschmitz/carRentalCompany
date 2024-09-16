@@ -6,11 +6,19 @@ public class RentalBean {
 	int rentalId;
 	Date startDate;
 	Date endDate;
-	int renovationId;
+	Integer renovationId;
 	int vehicleId;
 	int sellerId;
 
-	public RentalBean(int rentalId, Date startDate, Date endDate, int renovationId, int vehicleId, int sellerId) {
+	public RentalBean(Date startDate, Date endDate, Integer renovationId, int vehicleId, int sellerId) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.renovationId = renovationId;
+		this.vehicleId = vehicleId;
+		this.sellerId = sellerId;
+	}
+
+	public RentalBean(int rentalId, Date startDate, Date endDate, Integer renovationId, int vehicleId, int sellerId) {
 		this.rentalId = rentalId;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -43,11 +51,11 @@ public class RentalBean {
 		this.endDate = endDate;
 	}
 
-	public int getRenovationId() {
+	public Integer getRenovationId() {
 		return renovationId;
 	}
 
-	public void setRenovationId(int renovationId) {
+	public void setRenovationId(Integer renovationId) {
 		this.renovationId = renovationId;
 	}
 
