@@ -1,13 +1,13 @@
 package carRentalCompany.bean;
 
 public class AddressBean {
-	int addressId;
-	int addressCep;
-	String addressStreet;
-	String addressNeighborhood;
-	int addressNumber;
-	String addressComplement;
-	int clientId;
+	private int addressId;
+	private int addressCep;
+	private String addressStreet;
+	private String addressNeighborhood;
+	private int addressNumber;
+	private String addressComplement;
+	private int clientId;
 	
 	public AddressBean(int adressCep, String adressStreet, String adressNeighborhood, int addressNumber,
 			String adressComplement, int clientId) {

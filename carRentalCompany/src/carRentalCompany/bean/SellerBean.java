@@ -1,10 +1,10 @@
 package carRentalCompany.bean;
 
 public class SellerBean {
-	int sellerId;
-	String sellerName;
-	String sellerPhone;
-	String sellerEmail;
+	private int sellerId;
+	private String sellerName;
+	private String sellerPhone;
+	private String sellerEmail;
 
 	public SellerBean(String sellerName, String sellerPhone, String sellerEmail) {
 		this.sellerName = sellerName;

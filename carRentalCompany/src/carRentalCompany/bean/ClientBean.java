@@ -1,11 +1,11 @@
 package carRentalCompany.bean;
 
 public class ClientBean {
-	int clientId;
-	String clientName;
-	int clientCpf;
-	String clientPhone;
-	String clientEmail;
+	private int clientId;
+	private String clientName;
+	private int clientCpf;
+	private String clientPhone;
+	private String clientEmail;
 
 	public ClientBean(String clientName, int clientCpf, String clientPhone, String clientEmail) {
 		super();
@@ -61,5 +61,11 @@ public class ClientBean {
 
 	public void setClientEmail(String clientEmail) {
 		this.clientEmail = clientEmail;
+	}
+
+	@Override
+	public String toString() {
+		return "ClientBean [clientId=" + clientId + ", clientName=" + clientName + ", clientCpf=" + clientCpf
+				+ ", clientPhone=" + clientPhone + ", clientEmail=" + clientEmail + "]";
 	}
 }

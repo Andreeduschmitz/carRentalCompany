@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import carRentalCompany.bean.ClientBean;
@@ -46,9 +47,9 @@ public class ClientModel {
 		ps.close();
 	}
 	
-    static HashSet<ClientBean> listAll(Connection connectino) throws SQLException {
+    public static ArrayList<ClientBean> listAll(Connection connectino) throws SQLException {
         Statement st = (Statement) connectino.createStatement();;
-        HashSet<ClientBean> list = new HashSet<ClientBean>();
+        ArrayList<ClientBean> list = new ArrayList<ClientBean>();
         String sql = "SELECT clientid, clientname, clientcpf, clientphone, clientemail FROM public.client";
         ResultSet result = st.executeQuery(sql);
 
@@ -59,9 +60,9 @@ public class ClientModel {
         return list;
     }
 	
-	public static HashSet<ClientBean> search(int cpf, String name, Connection connection) throws SQLException {
+	public static ArrayList<ClientBean> search(int cpf, String name, Connection connection) throws SQLException {
 		PreparedStatement ps;
-		HashSet<ClientBean> list = new HashSet<ClientBean>();
+		ArrayList<ClientBean> list = new ArrayList<ClientBean>();
 		String selectClause = "SELECT clientid, clientname, clientcpf, clientphone, clientemail FROM public.client";
 		String whereClause = " WHERE ";
 

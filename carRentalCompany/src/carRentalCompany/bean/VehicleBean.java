@@ -3,13 +3,13 @@ package carRentalCompany.bean;
 import carRentalCompany.enums.VehicleCategory;
 
 public class VehicleBean {
-	int vehicleId;
-	String vehiclePlate;
-	String vehicleModel;
-	int vehicleLaunchYear;
-	String vehicleBrand;
-	VehicleCategory vehicleCategory;
-	Double dailyValue;
+	private int vehicleId;
+	private String vehiclePlate;
+	private String vehicleModel;
+	private int vehicleLaunchYear;
+	private String vehicleBrand;
+	private VehicleCategory vehicleCategory;
+	private Double dailyValue;
 	
 	public VehicleBean(String vehiclePlate, String vehicleModel, int vehicleLaunchYear, String vehicleBrand, VehicleCategory vehicleCategory, Double dailyValue) {
 		this.vehiclePlate = vehiclePlate;

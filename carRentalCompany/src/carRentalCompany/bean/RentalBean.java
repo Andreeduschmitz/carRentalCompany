@@ -3,28 +3,31 @@ package carRentalCompany.bean;
 import java.sql.Date;
 
 public class RentalBean {
-	int rentalId;
-	Date startDate;
-	Date endDate;
-	Integer renovationId;
-	int vehicleId;
-	int sellerId;
+	private int rentalId;
+	private Date startDate;
+	private Date endDate;
+	private Integer renovationId;
+	private int vehicleId;
+	private int sellerId;
+	private int clientId;
 
-	public RentalBean(Date startDate, Date endDate, Integer renovationId, int vehicleId, int sellerId) {
+	public RentalBean(Date startDate, Date endDate, Integer renovationId, int vehicleId, int sellerId, int clientId) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.renovationId = renovationId;
 		this.vehicleId = vehicleId;
 		this.sellerId = sellerId;
+		this.clientId = clientId;
 	}
 
-	public RentalBean(int rentalId, Date startDate, Date endDate, Integer renovationId, int vehicleId, int sellerId) {
+	public RentalBean(int rentalId, Date startDate, Date endDate, Integer renovationId, int vehicleId, int sellerId, int clientId) {
 		this.rentalId = rentalId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.renovationId = renovationId;
 		this.vehicleId = vehicleId;
 		this.sellerId = sellerId;
+		this.clientId = clientId;
 	}
 
 	public int getRentalId() {
@@ -73,5 +76,20 @@ public class RentalBean {
 
 	public void setSellerId(int sellerId) {
 		this.sellerId = sellerId;
+	}
+
+	public int getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
+	}
+
+	@Override
+	public String toString() {
+		return "RentalBean [rentalId=" + rentalId + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", renovationId=" + renovationId + ", vehicleId=" + vehicleId + ", sellerId=" + sellerId
+				+ ", clientId=" + clientId + "]";
 	}
 }
