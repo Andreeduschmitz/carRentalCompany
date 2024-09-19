@@ -36,6 +36,8 @@ public class RentalController {
         System.out.println("Selecione o veículo que será alugado");
         VehicleBean vehicle = Utils.selectVehicle(con);
         
+        //TODO buscar cliente por nome ou por cpf
+        
         System.out.println("Selecione o cliente que irá alugar o veículo");
         ClientBean client = Utils.selectClient(con);
 
@@ -60,6 +62,9 @@ public class RentalController {
     		return;
     	}
     	
+    	System.out.println("Selecione o vendedor responsável pela renovação");
+    	SellerBean seller = Utils.selectSeller(con);
+    	
         System.out.print("Data de início (formato aaaa-mm-dd):");
         String startDateString = input.nextLine();
         Date startDate = Date.valueOf(startDateString);
@@ -68,7 +73,7 @@ public class RentalController {
         String endDateString = input.nextLine();
         Date endDate = Date.valueOf(endDateString);
         
-        RentalBean renovatedRental = new RentalBean(startDate, endDate, null, rental.getVehicleId(), rental.getSellerId(), client.getClientId());
+        RentalBean renovatedRental = new RentalBean(startDate, endDate, rental.getRentalId(), rental.getVehicleId(), seller.getSellerId(), client.getClientId());
         RentalModel.createRental(renovatedRental, con);
         System.out.println("Locação renovada com sucesso!");
     }

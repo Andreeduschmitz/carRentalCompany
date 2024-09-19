@@ -2,11 +2,14 @@ package carRentalCompany.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import carRentalCompany.bean.AddressBean;
+import carRentalCompany.bean.ClientBean;
 
-public class AdressModel {
+public class AddressModel {
 	
 	public static void create(AddressBean address, Connection connection) throws SQLException {
 		PreparedStatement ps;
@@ -49,5 +52,22 @@ public class AdressModel {
 		
 		ps.execute();
 		ps.close();
+	}
+	
+	public static ArrayList<AddressBean> findAddressByClient(ClientBean client, Connection con) throws SQLException {
+		PreparedStatement ps;
+		ps = con.prepareStatement("SELECT addressid, addresscep, addressstreet, addressneighborhood, addressnumber, addresscomplement, clientid\n"
+				+ "	FROM public.address"
+				+ " WHERE public.address.clientid=?;");
+		ps.setInt(0, client.getClientId());
+		
+		ResultSet result = ps.executeQuery();
+		ArrayList<AddressBean> addresses = new ArrayList<AddressBean>();
+		
+		while(result.next()) {
+			addresses.add(new AddressBean(result.getInt(0), result.getInt(1), result.getString(2), result.getString(3), result.getInt(4), result.getString(5), result.getInt(6)));
+		}
+		
+		return addresses;
 	}
 }

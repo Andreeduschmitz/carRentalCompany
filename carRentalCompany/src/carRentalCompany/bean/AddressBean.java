@@ -85,4 +85,11 @@ public class AddressBean {
 	public void setClientId(int clientId) {
 		this.clientId = clientId;
 	}
+
+	@Override
+	public String toString() {
+		return "AddressBean [addressId=" + addressId + ", addressCep=" + addressCep + ", addressStreet=" + addressStreet
+				+ ", addressNeighborhood=" + addressNeighborhood + ", addressNumber=" + addressNumber
+				+ ", addressComplement=" + addressComplement + ", clientId=" + clientId + "]";
+	}
 }

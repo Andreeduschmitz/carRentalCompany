@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import carRentalCompany.bean.ClientBean;
 import carRentalCompany.bean.RentalBean;
+import carRentalCompany.bean.VehicleBean;
 
 public class RentalModel {
 
@@ -46,6 +47,23 @@ public class RentalModel {
 				+ "	FROM public.rental"
 				+ " WHERE public.rental.clientid=?");
 		ps.setInt(0, client.getClientId());
+		
+		ResultSet result = ps.executeQuery();
+		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
+		
+		while(result.next()) {
+			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+		}
+		
+		return rentals;
+	}
+
+	public static ArrayList<RentalBean> searchRentalByVehicle(VehicleBean vehicle, Connection con) throws SQLException {
+		PreparedStatement ps;
+		ps = con.prepareStatement("SELECT rentalid, startdate, enddate, renovationid, vehicleid, sellerid, clientid"
+				+ "	FROM public.rental"
+				+ " WHERE public.rental.vehicleid=? AND rental.endDate >= CURRENT_DATE;");
+		ps.setInt(0, vehicle.getVehicleId());
 		
 		ResultSet result = ps.executeQuery();
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();

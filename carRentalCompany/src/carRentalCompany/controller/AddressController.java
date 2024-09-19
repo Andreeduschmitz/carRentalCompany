@@ -2,15 +2,18 @@ package carRentalCompany.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import carRentalCompany.bean.AddressBean;
 import carRentalCompany.bean.ClientBean;
-import carRentalCompany.model.AdressModel;
+import carRentalCompany.model.AddressModel;
+import carRentalCompany.utils.Utils;
 
 public class AddressController {
 	
-    public void createAddress(Connection con, ClientBean client) throws SQLException {
+    public static void createAddress(Connection con, ClientBean client) throws SQLException {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar um novo endereço:");
         
@@ -36,53 +39,95 @@ public class AddressController {
         }
 
         AddressBean address = new AddressBean(addressCep, addressStreet, addressNeighborhood, addressNumber, addressComplement, client.getClientId());
-        AdressModel.create(address, con);
+        AddressModel.create(address, con);
         System.out.println("Endereço criado com sucesso!");
     }
 
-    public void updateAddress(Connection con, AddressBean address) throws SQLException {
+    public static void updateAddress(Connection con, AddressBean address) throws SQLException {
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - CEP\n2 - Rua\n3 - Bairro\n4 - Número\n5 - Complemento\n6 - Cancelar");
 
-        int option = 0;
-
-        switch (option) {
-            case 1:
-                System.out.print("Digite o novo CEP: ");
-                int cep = input.nextInt();
-                address.setAddressCep(cep);
-                break;
-
-            case 2:
-                System.out.print("Digite o nome da rua atualizado: ");
-                String streetName = input.next();
-                address.setAddressStreet(streetName);
-                break;
-
-            case 3:
-                System.out.print("Digite o nome do bairro atualizado: ");
-                String neighborhoodName = input.next();
-                address.setAddressNeighborhood(neighborhoodName);
-                break;
-
-            case 4:
-                System.out.print("Digite o número da residência atualizado: ");
-                int number = input.nextInt();
-                address.setAddressNumber(number);
-                break;
-
-            case 5:
-                System.out.print("Digite o complemento atualizado: ");
-                String complement = input.next();
-                address.setAddressComplement(complement);
-                break;
-            
-            default:
-                System.out.println("Opção inválida!");
-                return;
-        }
+        int option;
         
-        AdressModel.update(address, con);
+        do {
+        	option = input.nextInt();
+        	
+            switch (option) {
+	            case 1:
+	                System.out.print("Digite o novo CEP: ");
+	                int cep = input.nextInt();
+	                address.setAddressCep(cep);
+	                break;
+	
+	            case 2:
+	                System.out.print("Digite o nome da rua atualizado: ");
+	                String streetName = input.next();
+	                address.setAddressStreet(streetName);
+	                break;
+	
+	            case 3:
+	                System.out.print("Digite o nome do bairro atualizado: ");
+	                String neighborhoodName = input.next();
+	                address.setAddressNeighborhood(neighborhoodName);
+	                break;
+	
+	            case 4:
+	                System.out.print("Digite o número da residência atualizado: ");
+	                int number = input.nextInt();
+	                address.setAddressNumber(number);
+	                break;
+	
+	            case 5:
+	                System.out.print("Digite o complemento atualizado: ");
+	                String complement = input.next();
+	                address.setAddressComplement(complement);
+	                break;
+	                
+	            case 6:
+	            	break;
+	            
+	            default:
+	                System.out.println("Opção inválida!");
+	                return;
+            }
+        	
+		} while (option < 1 || option > 6);
+        
+        AddressModel.update(address, con);
         System.out.println("Informações atualizadas com sucesso!");
+    }
+    
+    public static void deleteAdress(Connection con) throws SQLException {
+    	Scanner input = new Scanner(System.in);
+    	
+    	System.out.println("Digite o cpf do cliente que deseja listar os endereços");
+    	int cpf = input.nextInt();
+    	
+    	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
+    	ArrayList<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
+
+    	for(AddressBean address : addresses) {
+    		address.toString();
+    	}
+    	
+        int index = -1;
+
+        while (true) {
+            try {
+                System.out.print("Digite o índice do endereço que deseja excluir: ");
+                index = input.nextInt();
+                if (index >= 0 && index < addresses.size()) {
+                    break;
+                } else {
+                    System.out.println("Índice fora do intervalo. Tente novamente.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro.");
+                input.next();
+            }
+        }
+    	
+        AddressModel.delete(addresses.get(index), con);
+        System.out.println("Endereço excluído com sucesso!");
     }
 }

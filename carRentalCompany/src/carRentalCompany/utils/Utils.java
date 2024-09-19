@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import carRentalCompany.bean.ClientBean;
@@ -182,4 +183,14 @@ public class Utils {
 
         return rentals.get(index);
 	}
+	
+	public static Boolean isVehicleInUse(Connection con, VehicleBean vehicle) throws SQLException {
+		List<RentalBean> vehicleActiveRental = RentalModel.searchRentalByVehicle(vehicle, con);
+		
+		if(vehicleActiveRental == null || !vehicleActiveRental.isEmpty()) {
+			return true;
+		}
+		
+		return false;
+	} 
 }

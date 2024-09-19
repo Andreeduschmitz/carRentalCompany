@@ -43,9 +43,12 @@ public class VehicleController {
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Placa\n2 - Valor da diária\n3 - Cancelar");
 
-        int option = 0;
-
-        switch (option) {
+        int option;
+        
+        do {
+        	option = input.nextInt();
+        	
+            switch (option) {
             case 1:
                 System.out.print("Digite a nova placa: ");
                 String plate = input.next();
@@ -57,13 +60,39 @@ public class VehicleController {
                 double value = input.nextDouble();
                 vehicle.setDailyValue(value);
                 break;
+                
+            case 3:
+            	break;
             
             default:
             	System.out.println("Opção inválida!");
             	return;
         }
+        	
+        } while (option < 1 || option > 3);
         
         VehicleModel.update(vehicle, con);
         System.out.println("Informações atualizadas com sucesso!");
+    }
+    
+    public static void deleteVehicle(Connection con) throws SQLException {
+    	Scanner input = new Scanner(System.in);
+    	
+    	System.out.println("Selecione o veículo que deseja excluir:");
+    	VehicleBean vehicle = Utils.selectVehicle(con);
+    	
+    	if(Utils.isVehicleInUse(con, vehicle)) {
+    		System.out.println("Este veículo está atualmente em uso e não pode ser excluído");
+    		return;
+    	}
+    	
+    	System.out.println("Tem certeza que deseja excluir esse veículo? S/N");
+    	
+    	String option = input.next();
+    	
+    	if(option == "S" || option == "s") {
+    		VehicleModel.detele(vehicle, con);
+    		System.out.println("Veículo excluído com sucesso");
+    	}
     }
 }
