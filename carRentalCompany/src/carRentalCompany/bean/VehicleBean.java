@@ -30,6 +30,8 @@ public class VehicleBean {
 		this.dailyValue = dailyValue;
 	}
 
+	public VehicleBean() {}
+
 	public int getVehicleId() {
 		return vehicleId;
 	}

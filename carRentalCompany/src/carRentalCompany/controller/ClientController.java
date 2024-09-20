@@ -2,6 +2,7 @@ package carRentalCompany.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import carRentalCompany.bean.ClientBean;
@@ -99,5 +100,31 @@ public class ClientController {
     		System.out.println("Cliente excluído com sucesso!");
     	}
     	
+    }
+    
+    public static void listAllClients(Connection con) throws SQLException {
+    	ArrayList<ClientBean> clients = ClientModel.listAll(con);
+    	
+    	if(clients == null || clients.isEmpty()) {
+    		System.out.println("Não há nenhum cliente cadastrado");
+    		return;
+    	}
+
+    	for(ClientBean client : clients) {
+    		System.out.println(client.toString());
+    	}
+    }
+    
+    public static void listClientsBySeach(Connection con, int cpf, String name) throws SQLException {
+    	ArrayList<ClientBean> clients = ClientModel.search(cpf, name, con);
+
+    	if(clients == null || clients.isEmpty()) {
+    		System.out.println("Não há nenhum cliente cadastrado");
+    		return;
+    	}
+
+    	for(ClientBean client : clients) {
+    		System.out.println(client.toString());
+    	}
     }
 }

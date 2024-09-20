@@ -62,4 +62,19 @@ public class SellerModel {
 
 	    return list;
 	}
+
+	public static ArrayList<SellerBean> searchByName(Connection con, String name) throws SQLException {
+		PreparedStatement ps;
+		ArrayList<SellerBean> list = new ArrayList<SellerBean>();
+		
+		ps = con.prepareStatement("SELECT sellerid, sellername, sellerphone, selleremail FROM public.seller WHERE public.seller.sellername LIKE '%?%';");
+		ps.setString(0, name);
+		ResultSet result = ps.executeQuery();
+		
+	    while(result.next()) {
+	        list.add(new SellerBean(result.getInt(1), result.getString(2), result.getString(3), result.getString(4)));
+	    }
+
+	    return list;
+	}
 }

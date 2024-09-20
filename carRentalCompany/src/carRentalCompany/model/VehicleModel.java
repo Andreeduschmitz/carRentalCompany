@@ -1,5 +1,6 @@
 package carRentalCompany.model;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,6 +62,44 @@ public class VehicleModel {
 		st = (Statement) con.createStatement();
 		String query = "SELECT vehicleid, vehicleplate, vehiclemodel, vehiclelaunchyear, vehiclecategory, dailyvalue, vehiclebrand FROM public.vehicle;";
 		ResultSet result = st.executeQuery(query);
+		
+	    while(result.next()) {
+	        list.add(new VehicleBean(result.getInt(1), result.getString(2), result.getString(3), result.getInt(4), result.getString(7),
+	        		VehicleCategory.fromOrdinal(result.getInt(5)), result.getDouble(6)));
+	    }
+	    
+	    return list;
+	}
+
+	public static ArrayList<VehicleBean> listBySearch(VehicleBean vehicle, Connection con) throws SQLException {
+		PreparedStatement ps;
+		ArrayList<VehicleBean> list = new ArrayList<VehicleBean>();
+		String selectClause = "SELECT vehicleid, vehicleplate, vehiclemodel, vehiclelaunchyear, vehiclecategory, dailyvalue, vehiclebrand FROM public.vehicle";
+		String whereClause;
+		
+		if(vehicle.getVehiclePlate() != null) {
+			whereClause = " WHERE public.vehicle.vehicleplate LIKE '%?%';";
+			ps = con.prepareStatement(selectClause + whereClause);
+			ps.setString(0, vehicle.getVehiclePlate());
+		} else if(vehicle.getVehicleModel() != null) {
+			whereClause = " WHERE public.vehicle.vehiclemodel LIKE '%?%';";
+			ps = con.prepareStatement(selectClause + whereClause);
+			ps.setString(0, vehicle.getVehicleModel());
+		} else if(vehicle.getVehicleCategory() != null) {
+			whereClause = " WHERE public.vehicle.vehiclecategory = ?;";
+			ps = con.prepareStatement(selectClause + whereClause);
+			ps.setInt(0, vehicle.getVehicleCategory().ordinal());
+		} else if(vehicle.getDailyValue() != null) {
+			whereClause = " WHERE public.vehicle.dailyvalue <= ?;";
+			ps = con.prepareStatement(selectClause + whereClause);
+			ps.setDouble(0, vehicle.getDailyValue());
+		} else {
+			whereClause = " WHERE public.vehicle.vehiclebrand LIKE '%?%';";
+			ps = con.prepareStatement(selectClause + whereClause);
+			ps.setString(0, vehicle.getVehicleBrand());
+		}
+		
+		ResultSet result = ps.executeQuery();
 		
 	    while(result.next()) {
 	        list.add(new VehicleBean(result.getInt(1), result.getString(2), result.getString(3), result.getInt(4), result.getString(7),

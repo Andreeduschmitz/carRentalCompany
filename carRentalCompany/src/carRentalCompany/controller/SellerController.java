@@ -2,6 +2,7 @@ package carRentalCompany.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import carRentalCompany.bean.ClientBean;
@@ -91,5 +92,29 @@ public class SellerController {
     		System.out.println("Vendedor excluído com sucesso!");
     	}
     	
+    }
+    
+    public static void listAllSellers(Connection con) throws SQLException {
+    	ArrayList<SellerBean> sellers = SellerModel.listAll(con);
+    	
+    	if(sellers == null || sellers.isEmpty()) {
+    		System.out.println("Não há nenhum vendedor cadastrado");
+    	}
+    	
+    	for(SellerBean seller : sellers) {
+    		System.out.println(seller.toString());
+    	}
+    }
+    
+    public static void listSellersByName(Connection con, String name) throws SQLException {
+    	ArrayList<SellerBean> sellers = SellerModel.searchByName(con, name);
+    	
+    	if(sellers == null || sellers.isEmpty()) {
+    		System.out.println("Não há nenhum vendedor cadastrado");
+    	}
+    	
+    	for(SellerBean seller : sellers) {
+    		System.out.println(seller.toString());
+    	}
     }
 }
