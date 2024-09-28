@@ -39,8 +39,6 @@ public class RentalController {
         System.out.println("Selecione o veículo que será alugado");
         VehicleBean vehicle = Utils.selectVehicle(con);
         
-        //TODO buscar cliente por nome ou por cpf
-        
         System.out.println("Selecione o cliente que irá alugar o veículo");
         ClientBean client = Utils.selectClient(con);
 
@@ -139,5 +137,88 @@ public class RentalController {
 		for(RentalBean rental : rentals) {
 			System.out.println(rental.toString());
 		}
+	}
+	
+	public static void countAssociatedRentals(Connection con) throws SQLException {
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Para realizar essa operação, é necessário buscar uma alocação");
+		System.out.println("Você deseja realizar a busca dessa alocação de qual forma?");
+		System.out.println("1 - por cliente /n2 - por período/n3 - por veículo");
+		
+		int index = -1;
+
+		while (true) {
+			try {
+				index = input.nextInt();
+				if (index >= 1 && index < 4) {
+					break;
+				} else {
+					System.out.println("Índice fora do intervalo. Tente novamente.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Entrada inválida. Digite um número inteiro.");
+				input.next();
+			}
+		}
+		
+		List<RentalBean> rentals = null;
+		
+		switch(index) {
+			case 1:
+				ClientBean client = Utils.selectClient(con);
+				rentals = RentalModel.searchRentalByClient(client, con);
+
+				break;
+			case 2:
+		        System.out.print("Data de início (formato aaaa-mm-dd):");
+		        String startDateString = input.nextLine();
+		        Date startDate = Date.valueOf(startDateString);
+
+		        System.out.print("Data de término (formato aaaa-mm-dd): ");
+		        String endDateString = input.nextLine();
+		        Date endDate = Date.valueOf(endDateString);
+
+		        rentals = RentalModel.searchRentalByDatePeriod(startDate, endDate, con);
+		        
+		        break;
+			case 3:
+				VehicleBean vehicle = Utils.selectVehicle(con);
+				
+				rentals = RentalModel.searchRentalByVehicle(vehicle, con);
+				
+				break;
+		}
+		
+		if(rentals == null || rentals.isEmpty()) {
+			System.out.println("Não foi encontrado nenhuma alocação");
+			return;
+		}
+		
+		System.out.println("Selecione a alocação desejada");
+		for(RentalBean rental : rentals) {
+			System.out.println(rental.toString());
+		}
+		
+		int rentalIndex = -1;
+
+		while (true) {
+			try {
+				rentalIndex = input.nextInt();
+				if (rentalIndex >= 1 && rentalIndex < rentals.size() + 1) {
+					break;
+				} else {
+					System.out.println("Índice fora do intervalo. Tente novamente.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Entrada inválida. Digite um número inteiro.");
+				input.next();
+			}
+		}
+		
+		RentalBean rental = rentals.get(rentalIndex);
+		int associatedRentalsAmount = RentalModel.countAssociatedRentals(rental, con);
+		
+		System.out.println("A quantidade de alocações/renovações associadas a essa alocação é de: " + associatedRentalsAmount);
 	}
 }

@@ -59,7 +59,7 @@ public class AddressModel {
 		ps = con.prepareStatement("SELECT addressid, addresscep, addressstreet, addressneighborhood, addressnumber, addresscomplement, clientid\n"
 				+ "	FROM public.address"
 				+ " WHERE public.address.clientid=?;");
-		ps.setInt(0, client.getClientId());
+		ps.setInt(1, client.getClientId());
 		
 		ResultSet result = ps.executeQuery();
 		ArrayList<AddressBean> addresses = new ArrayList<AddressBean>();

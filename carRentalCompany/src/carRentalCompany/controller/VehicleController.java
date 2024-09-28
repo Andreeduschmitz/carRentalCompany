@@ -1,13 +1,18 @@
 package carRentalCompany.controller;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
+import carRentalCompany.bean.RentalBean;
 import carRentalCompany.bean.VehicleBean;
 import carRentalCompany.enums.VehicleCategory;
+import carRentalCompany.model.RentalModel;
 import carRentalCompany.model.VehicleModel;
 import carRentalCompany.utils.Utils;
 
@@ -168,5 +173,35 @@ public class VehicleController {
     	for(VehicleBean vehicle : vehicles) {
     		System.out.println(vehicles.toString());
     	}
+    }
+    
+    public static void vehicleTotalBillingInPeriod(Connection con) throws SQLException {
+    	Scanner input = new Scanner(System.in);
+    	VehicleBean vehicle = Utils.selectVehicle(con);
+    	
+		System.out.println("Digite a data inicial da busca (formato aaaa-mm-dd):");
+        String startDateString = input.nextLine();
+        Date startDate = Date.valueOf(startDateString);
+        
+        System.out.print("Digite a data final da busca (formato aaaa-mm-dd):");
+        String endDateString = input.nextLine();
+        Date endDate = Date.valueOf(endDateString);
+        
+        List<RentalBean> rentals = RentalModel.searchRentalByVehicleAndPeriod(vehicle, startDate, endDate, con);
+        
+        if(rentals == null | rentals.isEmpty()) {
+        	System.out.println("Não há nenhuma alocação para este veículo nesse período");
+        	return;
+        }
+        
+        Long daysAmount = 0l;
+        
+        for(RentalBean rental : rentals) {
+        	daysAmount += ChronoUnit.DAYS.between(rental.getStartDate().toInstant(), rental.getEndDate().toInstant());
+        }
+        
+        Double billing = daysAmount * vehicle.getDailyValue();
+        
+        System.out.println("O valor total de faturamento do veículo no período foi de R$" + billing);
     }
 }

@@ -1,6 +1,5 @@
 package carRentalCompany.model;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import carRentalCompany.bean.SellerBean;
 import carRentalCompany.bean.VehicleBean;
 import carRentalCompany.enums.VehicleCategory;
 
@@ -80,23 +78,23 @@ public class VehicleModel {
 		if(vehicle.getVehiclePlate() != null) {
 			whereClause = " WHERE public.vehicle.vehicleplate LIKE '%?%';";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setString(0, vehicle.getVehiclePlate());
+			ps.setString(1, vehicle.getVehiclePlate());
 		} else if(vehicle.getVehicleModel() != null) {
 			whereClause = " WHERE public.vehicle.vehiclemodel LIKE '%?%';";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setString(0, vehicle.getVehicleModel());
+			ps.setString(1, vehicle.getVehicleModel());
 		} else if(vehicle.getVehicleCategory() != null) {
 			whereClause = " WHERE public.vehicle.vehiclecategory = ?;";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setInt(0, vehicle.getVehicleCategory().ordinal());
+			ps.setInt(1, vehicle.getVehicleCategory().ordinal());
 		} else if(vehicle.getDailyValue() != null) {
 			whereClause = " WHERE public.vehicle.dailyvalue <= ?;";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setDouble(0, vehicle.getDailyValue());
+			ps.setDouble(1, vehicle.getDailyValue());
 		} else {
 			whereClause = " WHERE public.vehicle.vehiclebrand LIKE '%?%';";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setString(0, vehicle.getVehicleBrand());
+			ps.setString(1, vehicle.getVehicleBrand());
 		}
 		
 		ResultSet result = ps.executeQuery();

@@ -17,9 +17,9 @@ public class SellerModel {
 		ps = connection.prepareStatement("INSERT INTO public.seller("
 				+ "	sellername, sellerphone, selleremail)"
 				+ "	VALUES ( ?, ?, ?);");
-		ps.setString(0, seller.getSellerName());
-		ps.setString(1, seller.getSellerPhone());
-		ps.setString(2, seller.getSellerEmail());
+		ps.setString(1, seller.getSellerName());
+		ps.setString(2, seller.getSellerPhone());
+		ps.setString(3, seller.getSellerEmail());
 		
 		ps.execute();
 		ps.close();
@@ -30,9 +30,9 @@ public class SellerModel {
 		ps = connection.prepareStatement("UPDATE public.seller"
 				+ "	SET sellername=?, sellerphone=?, selleremail=?"
 				+ "	WHERE public.seller.sellerid=?;");
-		ps.setString(0, seller.getSellerName());
-		ps.setString(1, seller.getSellerPhone());
-		ps.setString(2, seller.getSellerEmail());
+		ps.setString(1, seller.getSellerName());
+		ps.setString(2, seller.getSellerPhone());
+		ps.setString(3, seller.getSellerEmail());
 		
 		ps.execute();
 		ps.close();
@@ -42,7 +42,7 @@ public class SellerModel {
 		PreparedStatement ps;
 		ps = connection.prepareStatement("DELETE FROM public.seller"
 				+ "	WHERE public.seller.id=?;");
-		ps.setInt(0, seller.getSellerId());
+		ps.setInt(1, seller.getSellerId());
 		
 		ps.execute();
 		ps.close();
@@ -68,7 +68,7 @@ public class SellerModel {
 		ArrayList<SellerBean> list = new ArrayList<SellerBean>();
 		
 		ps = con.prepareStatement("SELECT sellerid, sellername, sellerphone, selleremail FROM public.seller WHERE public.seller.sellername LIKE '%?%';");
-		ps.setString(0, name);
+		ps.setString(1, name);
 		ResultSet result = ps.executeQuery();
 		
 	    while(result.next()) {
