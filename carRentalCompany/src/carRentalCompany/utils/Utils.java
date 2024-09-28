@@ -192,5 +192,26 @@ public class Utils {
 		}
 		
 		return false;
-	} 
+	}
+	
+	public static int indexSelector(int startIndex, int endIndex) {
+		Scanner input = new Scanner(System.in);
+		int index = -1;
+
+		while (true) {
+			try {
+				index = input.nextInt();
+				if (index >= startIndex && index < endIndex) {
+					break;
+				} else {
+					System.out.println("Índice fora do intervalo. Tente novamente.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Entrada inválida. Digite um número inteiro.");
+				input.next();
+			}
+		}
+		
+		return index;
+	}
 }
