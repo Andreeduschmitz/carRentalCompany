@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import carRentalCompany.bean.AddressBean;
@@ -12,6 +13,11 @@ import carRentalCompany.model.AddressModel;
 import carRentalCompany.utils.Utils;
 
 public class AddressController {
+	
+	public static void createAddress(Connection con) throws SQLException {
+		ClientBean client = Utils.selectClient(con);
+		AddressController.createAddress(con, client);
+	}
 	
     public static void createAddress(Connection con, ClientBean client) throws SQLException {
         Scanner input = new Scanner(System.in);
@@ -43,8 +49,40 @@ public class AddressController {
         System.out.println("Endereço criado com sucesso!");
     }
 
-    public static void updateAddress(Connection con, AddressBean address) throws SQLException {
+    public static void updateAddress(Connection con) throws SQLException {
         Scanner input = new Scanner(System.in);
+    	ClientBean client = Utils.selectClient(con);
+    	List<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
+    	
+    	if(addresses == null || addresses.isEmpty()) {
+    		System.out.println("Esse cliente não possui nenhum endereço registrado");
+    		return;
+    	}
+    	
+    	System.out.println("Selecione do endereço que deseja atualizar");
+    	
+    	for(AddressBean address : addresses) {
+    		System.out.println(address.toString());
+    	}
+    	
+		int index = -1;
+
+		while (true) {
+			try {
+				index = input.nextInt();
+				if (index >= 0 && index < addresses.size()) {
+					break;
+				} else {
+					System.out.println("Índice fora do intervalo. Tente novamente.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Entrada inválida. Digite um número inteiro.");
+				input.next();
+			}
+		}
+		
+		AddressBean address = addresses.get(index);
+    	
         System.out.println("O que você deseja atualizar?\n1 - CEP\n2 - Rua\n3 - Bairro\n4 - Número\n5 - Complemento\n6 - Cancelar");
 
         int option;
@@ -129,5 +167,24 @@ public class AddressController {
     	
         AddressModel.delete(addresses.get(index), con);
         System.out.println("Endereço excluído com sucesso!");
+    }
+    
+    public static void listAddressesByClient(Connection con) throws SQLException {
+    	Scanner input = new Scanner(System.in);
+    	
+    	System.out.println("Digite o cpf do cliente que deseja listar os endereços");
+    	int cpf = input.nextInt();
+    	
+    	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
+    	ArrayList<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
+    	
+    	if(addresses == null || addresses.isEmpty()) {
+    		System.out.println("Este cliente não possui nenhum endereço cadastrado");
+    		return;
+    	}
+
+    	for(AddressBean address : addresses) {
+    		address.toString();
+    	}
     }
 }

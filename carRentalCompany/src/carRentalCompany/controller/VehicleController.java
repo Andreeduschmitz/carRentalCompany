@@ -41,7 +41,8 @@ public class VehicleController {
     }
 	
 
-    public void updateVehicle(Connection con, VehicleBean vehicle) throws SQLException {
+    public void updateVehicle(Connection con) throws SQLException {
+    	VehicleBean vehicle = Utils.selectVehicle(con);
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Placa\n2 - Valor da diária\n3 - Cancelar");
 
@@ -113,7 +114,7 @@ public class VehicleController {
     
     public static void listVehiclesBySearch(Connection con) throws SQLException {
     	Scanner input = new Scanner(System.in);
-    	 VehicleBean vehicleSearch = new VehicleBean();
+    	VehicleBean vehicleSearch = new VehicleBean();
     	
     	System.out.println("Digite o índice da característica do veículo a qual deseja utilizar na pesquisa:");
     	System.out.println("1 - placa, 2 - modelo, 3 - categoria, 4 - valor, 5 - marca");

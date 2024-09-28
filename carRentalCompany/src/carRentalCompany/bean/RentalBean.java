@@ -30,6 +30,8 @@ public class RentalBean {
 		this.clientId = clientId;
 	}
 
+	public RentalBean() {}
+
 	public int getRentalId() {
 		return rentalId;
 	}

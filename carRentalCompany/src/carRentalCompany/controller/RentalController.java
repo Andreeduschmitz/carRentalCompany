@@ -6,12 +6,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import carRentalCompany.bean.ClientBean;
 import carRentalCompany.bean.RentalBean;
 import carRentalCompany.bean.SellerBean;
 import carRentalCompany.bean.VehicleBean;
+import carRentalCompany.enums.VehicleCategory;
 import carRentalCompany.model.ClientModel;
 import carRentalCompany.model.RentalModel;
 import carRentalCompany.utils.Utils;
@@ -77,4 +80,64 @@ public class RentalController {
         RentalModel.createRental(renovatedRental, con);
         System.out.println("Locação renovada com sucesso!");
     }
+    
+	public static void listRentalsBySearch(Connection con) throws SQLException {
+		Scanner input = new Scanner(System.in);
+		List<RentalBean> rentals = null;
+
+		System.out.println("Digite o índice da característica do veículo a qual deseja utilizar na pesquisa:");
+		System.out.println("1 - veículo, 2 - cliente, 3 - data");
+
+		int index = -1;
+
+		while (true) {
+			try {
+				index = input.nextInt();
+				if (index >= 0 && index < 5) {
+					break;
+				} else {
+					System.out.println("Índice fora do intervalo. Tente novamente.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Entrada inválida. Digite um número inteiro.");
+				input.next();
+			}
+		}
+
+		switch (index) {
+			case 1:
+				System.out.println("Selecione o veículo que deseja buscar o aluguel:");
+				VehicleBean vehicle = Utils.selectVehicle(con);
+				
+				rentals = RentalModel.searchRentalByVehicle(vehicle, con);
+				break;
+			case 2:
+		        System.out.println("Selecione o cliente que deseja buscar o aluguel");
+		        ClientBean client = Utils.selectClient(con);
+		        
+		        rentals = RentalModel.searchRentalByClient(client, con);
+				break;
+			case 3:
+				System.out.println("Digite a data inicial da busca (formato aaaa-mm-dd):");
+		        String startDateString = input.nextLine();
+		        Date startDate = Date.valueOf(startDateString);
+		        
+		        System.out.print("Digite a data final da busca (formato aaaa-mm-dd):");
+		        String endDateString = input.nextLine();
+		        Date endDate = Date.valueOf(endDateString);
+		        
+		        rentals = RentalModel.searchRentalByDatePeriod(startDate, endDate, con);
+				break;
+		}
+		
+		
+		if(rentals == null || rentals.isEmpty()) {
+			System.out.println("Nenhum aluguel encontrado");
+			return;
+		}
+		
+		for(RentalBean rental : rentals) {
+			System.out.println(rental.toString());
+		}
+	}
 }

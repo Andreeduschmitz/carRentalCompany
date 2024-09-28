@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import carRentalCompany.bean.ClientBean;
 import carRentalCompany.bean.RentalBean;
+import carRentalCompany.bean.SellerBean;
 import carRentalCompany.bean.VehicleBean;
 
 public class RentalModel {
@@ -64,6 +66,43 @@ public class RentalModel {
 				+ "	FROM public.rental"
 				+ " WHERE public.rental.vehicleid=? AND rental.endDate >= CURRENT_DATE;");
 		ps.setInt(0, vehicle.getVehicleId());
+		
+		ResultSet result = ps.executeQuery();
+		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
+		
+		while(result.next()) {
+			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+		}
+		
+		return rentals;
+	}
+	
+	public static ArrayList<RentalBean> searchRentalByDatePeriod(Date startDate, Date endDate, Connection con) throws SQLException {
+		PreparedStatement ps;
+		ps = con.prepareStatement("SELECT rentalid, startdate, enddate, renovationid, vehicleid, sellerid, clientid"
+				+ "	FROM public.rental"
+				+ " WHERE public.rental.startdate BETWEEN ? AND ?");
+		ps.setDate(0, startDate);
+		ps.setDate(1, endDate);
+		
+		ResultSet result = ps.executeQuery();
+		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
+		
+		while(result.next()) {
+			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+		}
+		
+		return rentals;
+	}
+
+	public static ArrayList<RentalBean> searchRentalByDatePeriodAndSeller(Date startDate, Date endDate, SellerBean seller, Connection con) throws SQLException {
+		PreparedStatement ps;
+		ps = con.prepareStatement("SELECT rentalid, startdate, enddate, renovationid, vehicleid, sellerid, clientid"
+				+ "	FROM public.rental"
+				+ " WHERE piblic.rental.sellerid = ? AND public.rental.startdate BETWEEN ? AND ?");
+		ps.setInt(0, seller.getSellerId());
+		ps.setDate(1, startDate);
+		ps.setDate(2, endDate);
 		
 		ResultSet result = ps.executeQuery();
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();

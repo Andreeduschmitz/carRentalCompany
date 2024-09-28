@@ -3,6 +3,7 @@ package carRentalCompany.controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import carRentalCompany.bean.ClientBean;
@@ -42,7 +43,8 @@ public class ClientController {
         }
     }
 
-    public void updateClient(Connection con, ClientBean client) throws SQLException {
+    public void updateClient(Connection con) throws SQLException {
+    	ClientBean client = Utils.selectClient(con);
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Nome\n2 - Telefone\n3 - E-mail\n4 - Cancelar");
 
@@ -113,6 +115,40 @@ public class ClientController {
     	for(ClientBean client : clients) {
     		System.out.println(client.toString());
     	}
+    }
+    
+    public static void listClientsBySeach(Connection con) throws SQLException {
+    	Scanner input = new Scanner(System.in);
+    	
+    	System.out.println("Qual a característica do cliente você deseja utilizar na busca?\n 0 - cpf\n 1 - nome");
+		int index = -1;
+
+		while (true) {
+			try {
+				index = input.nextInt();
+				if (index >= 0 && index < 1) {
+					break;
+				} else {
+					System.out.println("Índice fora do intervalo. Tente novamente.");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Entrada inválida. Digite um número inteiro.");
+				input.next();
+			}
+		}
+		
+		int cpf = 0;
+		String name = null;
+		
+		if(index == 0) {
+			System.out.println("Digite o cpf que deseja pesquisar:");
+			cpf = input.nextInt();
+		} else {
+			System.out.println("Digite o nome que deseja pesquisar");
+			name = input.next();
+		}
+		
+		ClientController.listClientsBySeach(con, cpf, name);
     }
     
     public static void listClientsBySeach(Connection con, int cpf, String name) throws SQLException {
