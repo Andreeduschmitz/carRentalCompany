@@ -20,7 +20,7 @@ public class DeleteMenu {
 	        System.out.println("2 - Vendedor");
 	        System.out.println("3 - Veículo");
 	        System.out.println("4 - Endereço");
-	        System.out.println("5 - Sair");
+	        System.out.println("5 - Retornar ao menu principal");
 	
 	        opcao = Utils.indexSelector(1, 5);
 	        
@@ -44,6 +44,6 @@ public class DeleteMenu {
 					break;
 			}
 
-    	} while (opcao < 1 || opcao > 5);
+    	} while (opcao != 5);
     }
 }

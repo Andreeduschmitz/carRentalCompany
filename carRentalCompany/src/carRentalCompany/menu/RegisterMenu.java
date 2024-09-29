@@ -52,6 +52,6 @@ public class RegisterMenu {
 					System.out.println("Opção inválida");
 					break;
 			}
-		} while (opcao < 1 || opcao > 5);
+		} while (opcao != 7);
 	}
 }

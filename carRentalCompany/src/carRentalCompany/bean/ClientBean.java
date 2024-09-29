@@ -3,11 +3,11 @@ package carRentalCompany.bean;
 public class ClientBean {
 	private int clientId;
 	private String clientName;
-	private int clientCpf;
+	private long clientCpf;
 	private String clientPhone;
 	private String clientEmail;
 
-	public ClientBean(String clientName, int clientCpf, String clientPhone, String clientEmail) {
+	public ClientBean(String clientName, long clientCpf, String clientPhone, String clientEmail) {
 		super();
 		this.clientName = clientName;
 		this.clientCpf = clientCpf;
@@ -15,7 +15,7 @@ public class ClientBean {
 		this.clientEmail = clientEmail;
 	}
 
-	public ClientBean(int clientId, String clientName, int clientCpf, String clientPhone, String clientEmail) {
+	public ClientBean(int clientId, String clientName, long clientCpf, String clientPhone, String clientEmail) {
 		this.clientId = clientId;
 		this.clientName = clientName;
 		this.clientCpf = clientCpf;
@@ -39,11 +39,11 @@ public class ClientBean {
 		this.clientName = clientName;
 	}
 
-	public int getClientCpf() {
+	public long getClientCpf() {
 		return clientCpf;
 	}
 
-	public void setClientCpf(int clientCpf) {
+	public void setClientCpf(long clientCpf) {
 		this.clientCpf = clientCpf;
 	}
 

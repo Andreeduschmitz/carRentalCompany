@@ -12,6 +12,7 @@ public class MainMenu {
 		System.out.println("Bem vindo à locadora Rossdeutscher!!!");
 
 		do {
+			System.out.println("MENU PRINCIPAL");
 			System.out.println("Digite o serviço que deseja utilizar:");
 	        System.out.println("1 - Menu de cadastros");
 	        System.out.println("2 - Menu de alterações");
@@ -20,24 +21,24 @@ public class MainMenu {
 	        System.out.println("5 - Menu de relatórios");
 	        System.out.println("6 - Sair");
 			
-			opcao = Utils.indexSelector(1, 5);
+			opcao = Utils.indexSelector(1, 6);
 			
 			switch (opcao) {
 				case 1:
 					RegisterMenu.registerMenu(con);
-					return;
+					break;
 				case 2:
 					UpdateMenu.updateMenu(con);
-					return;
+					break;
 				case 3:
 					DeleteMenu.deleteMenu(con);
-					return;
+					break;
 				case 4:
 					ListMenu.listMenu(con);
-					return;
+					break;
 				case 5:
 					ReportMenu.reportMenu(con);
-					return;
+					break;
 				case 6:
 					return;
 				default:
@@ -45,6 +46,6 @@ public class MainMenu {
 					break;
 			}
 		
-		} while(opcao < 1 || opcao > 6);
+		} while(opcao != 6);
 	}
 }

@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -201,7 +200,7 @@ public class Utils {
 		while (true) {
 			try {
 				index = input.nextInt();
-				if (index >= startIndex && index < endIndex) {
+				if (index >= startIndex && index <= endIndex) {
 					break;
 				} else {
 					System.out.println("Índice fora do intervalo. Tente novamente.");

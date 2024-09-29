@@ -18,7 +18,7 @@ public class ReportMenu {
 	        System.out.println("1 - Listar o valor total gerado por um veículo em um período de tempo");
 	        System.out.println("2 - Listar todas as locações de um vendedor em um período");
 	        System.out.println("3 - Listar quantidade de renovações de uma alocação");
-	        System.out.println("4 - Sair");
+	        System.out.println("4 - Retornar ao menu principal");
 
         	opcao = Utils.indexSelector(1, 4);
 			switch (opcao) {
@@ -38,6 +38,6 @@ public class ReportMenu {
 					break;
 			}
 
-    	} while(opcao < 1 || opcao > 4);
+    	} while(opcao != 4);
     }
 }

@@ -22,7 +22,7 @@ public class ListMenu {
 	        System.out.println("3 - Veículo");
 	        System.out.println("4 - Endereço");
 	        System.out.println("5 - Locação");
-	        System.out.println("6 - Sair");
+	        System.out.println("6 - Retornar ao menu principal");
 	
 	        opcao = Utils.indexSelector(1, 6);
 	        
@@ -48,6 +48,6 @@ public class ListMenu {
 					System.out.println("Opção inválida");
 					break;
 			}
-    	} while(opcao < 1 || opcao > 6);
+    	} while(opcao != 6);
     }
 }

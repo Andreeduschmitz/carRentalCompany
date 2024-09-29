@@ -20,7 +20,7 @@ public class ClientController {
         String clientName = input.nextLine();
 
         System.out.print("CPF: ");
-        int clientCpf = input.nextInt();
+        long clientCpf = input.nextLong();
 
         System.out.print("Telefone para contato: ");
         String clientPhone = input.next();
@@ -38,7 +38,7 @@ public class ClientController {
         System.out.println("Deseja inserir um endereço para esse cliente? S/N");
         String option = input.next();
         
-        if(option == "S" || option == "s") {
+        if(option.equals("S") || option.equals("s")) {
         	AddressController.createAddress(con, client);
         }
     }

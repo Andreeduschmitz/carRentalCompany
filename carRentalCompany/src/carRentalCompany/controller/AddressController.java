@@ -39,7 +39,7 @@ public class AddressController {
         String option = input.next();
 
         String addressComplement = null;
-        if (option == "S" || option == "s") {
+        if (option.equals("S") || option.equals("s")) {
             System.out.print("Informe o complemento: ");
             addressComplement = input.next();
         }
