@@ -135,7 +135,7 @@ public class AddressController {
         System.out.println("Informações atualizadas com sucesso!");
     }
     
-    public static void deleteAdress(Connection con) throws SQLException {
+    public static void deleteAddress(Connection con) throws SQLException {
     	Scanner input = new Scanner(System.in);
     	
     	System.out.println("Digite o cpf do cliente que deseja listar os endereços");

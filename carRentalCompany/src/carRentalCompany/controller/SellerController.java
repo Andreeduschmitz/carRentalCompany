@@ -17,7 +17,7 @@ import carRentalCompany.utils.Utils;
 
 public class SellerController {
     
-	public void createSeller(Connection con) throws SQLException {
+	public static void createSeller(Connection con) throws SQLException {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar um novo vendedor:");
         
@@ -35,7 +35,7 @@ public class SellerController {
         System.out.println("Vendedor criado com sucesso!");
     }
 	
-    public void updateSeller(Connection con) throws SQLException {
+    public static void updateSeller(Connection con) throws SQLException {
     	SellerBean seller = Utils.selectSeller(con);
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Nome\n2 - Telefone\n3 - E-mail\n4 - Cancelar");

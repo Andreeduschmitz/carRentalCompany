@@ -18,7 +18,7 @@ import carRentalCompany.utils.Utils;
 
 public class VehicleController {
     
-	public void createVehicle(Connection con) throws SQLException {
+	public static void createVehicle(Connection con) throws SQLException {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar um novo veículo:");
         
@@ -46,7 +46,7 @@ public class VehicleController {
     }
 	
 
-    public void updateVehicle(Connection con) throws SQLException {
+    public static void updateVehicle(Connection con) throws SQLException {
     	VehicleBean vehicle = Utils.selectVehicle(con);
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Placa\n2 - Valor da diária\n3 - Cancelar");

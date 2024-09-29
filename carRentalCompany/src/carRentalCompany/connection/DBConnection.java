@@ -2,9 +2,7 @@ package carRentalCompany.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +14,7 @@ public class DBConnection {
 		String driver = "org.postgresql.Driver";
 		String user = "postgres";
 		String password = "119123";
-		String url = "jdbc:postgresql://localhost:5432/clinica";
+		String url = "jdbc:postgresql://localhost:5432/carRentalCompany";
 		
         try {
             Class.forName(driver);

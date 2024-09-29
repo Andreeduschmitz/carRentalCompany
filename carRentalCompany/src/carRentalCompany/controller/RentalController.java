@@ -21,7 +21,7 @@ import carRentalCompany.utils.Utils;
 
 public class RentalController {
 
-    public void createRental(Connection con) throws SQLException {
+    public static void createRental(Connection con) throws SQLException {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar uma nova locação:");
         
@@ -47,7 +47,7 @@ public class RentalController {
         System.out.println("Locação criada com sucesso!");
     }
     
-    public void createRenovation(Connection con) throws SQLException {
+    public static void createRenovation(Connection con) throws SQLException {
     	Scanner input = new Scanner(System.in);
     	System.out.println("Insira os dados abaixo para renovar sua locação");
     	
