@@ -32,7 +32,7 @@ public class DeleteMenu {
 					SellerController.deleteSeller(con);
 					return;
 				case 3:
-					VehicleController.updateVehicle(con);
+					VehicleController.deleteVehicle(con);
 					return;
 				case 4:
 					AddressController.deleteAddress(con);

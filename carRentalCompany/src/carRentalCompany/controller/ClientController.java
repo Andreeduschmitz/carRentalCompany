@@ -51,12 +51,13 @@ public class ClientController {
         int option;
         
 		do {
-			option = input.nextInt();
+			option = Utils.indexSelector(1, 4);
 
 			switch (option) {
 				case 1:
 					System.out.print("Digite o nome completo atualizado: ");
-					String name = input.next();
+					input.nextLine();
+					String name = input.nextLine();
 					client.setClientName(name);
 					break;
 	
@@ -89,17 +90,19 @@ public class ClientController {
     	Scanner input = new Scanner(System.in);
     	
     	System.out.println("Digite o cpf do cliente que deseja excluir");
-    	int cpf = input.nextInt();
+    	long cpf = input.nextLong();
     	
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
     	
     	System.out.println("Tem certeza que deseja excluir o cliente " + client.getClientName() + "? S/N");
     	String option = input.next();
     	
-    	if(option == "S" || option == "s") {
+    	if(option.equals("S") || option.equals("s")) {
     		ClientModel.delete(client, con);
     		
     		System.out.println("Cliente excluído com sucesso!");
+    	} else {
+    		System.out.println("Operação cancelada");
     	}
     	
     }
@@ -120,29 +123,16 @@ public class ClientController {
     public static void listClientsBySeach(Connection con) throws SQLException {
     	Scanner input = new Scanner(System.in);
     	
-    	System.out.println("Qual a característica do cliente você deseja utilizar na busca?\n 0 - cpf\n 1 - nome");
-		int index = -1;
-
-		while (true) {
-			try {
-				index = input.nextInt();
-				if (index >= 0 && index < 1) {
-					break;
-				} else {
-					System.out.println("Índice fora do intervalo. Tente novamente.");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Entrada inválida. Digite um número inteiro.");
-				input.next();
-			}
-		}
+    	System.out.println("Qual a característica do cliente você deseja utilizar na busca?\n1 - cpf\n2 - nome");
 		
-		int cpf = 0;
+    	int index = Utils.indexSelector(1, 2);
+		
+		long cpf = 0;
 		String name = null;
 		
-		if(index == 0) {
+		if(index == 1) {
 			System.out.println("Digite o cpf que deseja pesquisar:");
-			cpf = input.nextInt();
+			cpf = input.nextLong();
 		} else {
 			System.out.println("Digite o nome que deseja pesquisar");
 			name = input.next();
@@ -151,7 +141,7 @@ public class ClientController {
 		ClientController.listClientsBySeach(con, cpf, name);
     }
     
-    public static void listClientsBySeach(Connection con, int cpf, String name) throws SQLException {
+    public static void listClientsBySeach(Connection con, long cpf, String name) throws SQLException {
     	ArrayList<ClientBean> clients = ClientModel.search(cpf, name, con);
 
     	if(clients == null || clients.isEmpty()) {

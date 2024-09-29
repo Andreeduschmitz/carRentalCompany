@@ -17,27 +17,29 @@ public class RentalModel {
 	public static void createRental(RentalBean rental, Connection connection) throws SQLException {
 		PreparedStatement ps;
 		ps = connection.prepareStatement("INSERT INTO public.rental("
-				+ "	startdate, enddate, vehicleid, sellerid)"
-				+ "	VALUES (?, ?, ?, ?);");
+				+ "	startdate, enddate, vehicleid, sellerid, clientid)"
+				+ "	VALUES (?, ?, ?, ?, ?);");
 		ps.setDate(1, rental.getStartDate());
 		ps.setDate(2, rental.getEndDate());
 		ps.setInt(3, rental.getVehicleId());
 		ps.setInt(4, rental.getSellerId());
+		ps.setInt(5, rental.getClientId());
 		
 		ps.execute();
 		ps.close();
 	}
 	
-	public static void createRenovation(RentalBean renovatedRental, RentalBean renovation, Connection connection) throws SQLException {
+	public static void createRenovation(RentalBean rental, Connection connection) throws SQLException {
 		PreparedStatement ps;
 		ps = connection.prepareStatement("INSERT INTO public.rental("
-				+ "	startdate, enddate, renovationid, vehicleid, sellerid)"
-				+ "	VALUES (?, ?, ?, ?, ?);");
-		ps.setDate(1, renovation.getStartDate());
-		ps.setDate(2, renovation.getEndDate());
-		ps.setInt(3, renovatedRental.getRentalId());
-		ps.setInt(4, renovation.getVehicleId());
-		ps.setInt(5, renovation.getSellerId());
+				+ "	startdate, enddate, vehicleid, sellerid, clientid, renovationid)"
+				+ "	VALUES (?, ?, ?, ?, ?, ?);");
+		ps.setDate(1, rental.getStartDate());
+		ps.setDate(2, rental.getEndDate());
+		ps.setInt(3, rental.getVehicleId());
+		ps.setInt(4, rental.getSellerId());
+		ps.setInt(5, rental.getClientId());
+		ps.setInt(6, rental.getRenovationId());
 		
 		ps.execute();
 		ps.close();
@@ -54,7 +56,7 @@ public class RentalModel {
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
 		
 		while(result.next()) {
-			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+			rentals.add(new RentalBean(result.getInt(1), result.getDate(2), result.getDate(3), result.getInt(4), result.getInt(5), result.getInt(6), result.getInt(7)));
 		}
 		
 		return rentals;
@@ -64,14 +66,14 @@ public class RentalModel {
 		PreparedStatement ps;
 		ps = con.prepareStatement("SELECT rentalid, startdate, enddate, renovationid, vehicleid, sellerid, clientid"
 				+ "	FROM public.rental"
-				+ " WHERE public.rental.vehicleid=? AND rental.endDate >= CURRENT_DATE;");
+				+ " WHERE public.rental.vehicleid=?;");
 		ps.setInt(1, vehicle.getVehicleId());
 		
 		ResultSet result = ps.executeQuery();
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
 		
 		while(result.next()) {
-			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+			rentals.add(new RentalBean(result.getInt(1), result.getDate(2), result.getDate(3), result.getInt(4), result.getInt(5), result.getInt(6), result.getInt(7)));
 		}
 		
 		return rentals;
@@ -89,7 +91,7 @@ public class RentalModel {
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
 		
 		while(result.next()) {
-			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+			rentals.add(new RentalBean(result.getInt(1), result.getDate(2), result.getDate(3), result.getInt(4), result.getInt(5), result.getInt(6), result.getInt(7)));
 		}
 		
 		return rentals;
@@ -99,7 +101,7 @@ public class RentalModel {
 		PreparedStatement ps;
 		ps = con.prepareStatement("SELECT rentalid, startdate, enddate, renovationid, vehicleid, sellerid, clientid"
 				+ "	FROM public.rental"
-				+ " WHERE piblic.rental.sellerid = ? AND public.rental.startdate BETWEEN ? AND ?");
+				+ " WHERE public.rental.sellerid = ? AND public.rental.startdate BETWEEN ? AND ?");
 		ps.setInt(1, seller.getSellerId());
 		ps.setDate(2, startDate);
 		ps.setDate(3, endDate);
@@ -108,7 +110,7 @@ public class RentalModel {
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
 		
 		while(result.next()) {
-			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+			rentals.add(new RentalBean(result.getInt(1), result.getDate(2), result.getDate(3), result.getInt(4), result.getInt(5), result.getInt(6), result.getInt(7)));
 		}
 		
 		return rentals;
@@ -127,7 +129,7 @@ public class RentalModel {
 		ArrayList<RentalBean> rentals = new ArrayList<RentalBean>();
 		
 		while(result.next()) {
-			rentals.add(new RentalBean(result.getInt(0), result.getDate(1), result.getDate(2), result.getInt(3), result.getInt(4), result.getInt(5), result.getInt(6)));
+			rentals.add(new RentalBean(result.getInt(1), result.getDate(2), result.getDate(3), result.getInt(4), result.getInt(5), result.getInt(6), result.getInt(7)));
 		}
 		
 		return rentals;

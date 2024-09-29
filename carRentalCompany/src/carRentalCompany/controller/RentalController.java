@@ -26,11 +26,11 @@ public class RentalController {
         System.out.println("Insira os dados abaixo para cadastrar uma nova locação:");
         
         System.out.print("Data de início (formato aaaa-mm-dd):");
-        String startDateString = input.nextLine();
+        String startDateString = input.next();
         Date startDate = Date.valueOf(startDateString);
 
         System.out.print("Data de término (formato aaaa-mm-dd): ");
-        String endDateString = input.nextLine();
+        String endDateString = input.next();
         Date endDate = Date.valueOf(endDateString);
         
         System.out.println("Selecione o vendedor responsável:");
@@ -52,14 +52,13 @@ public class RentalController {
     	System.out.println("Insira os dados abaixo para renovar sua locação");
     	
     	System.out.println("Digite o cpf do titular da locação a ser renovada:");
-    	int cpf = input.nextInt();
+    	long cpf = input.nextLong();
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
     	
     	System.out.println("Selecione a locação a ser renovada");
     	RentalBean rental = Utils.selectRentalByClient(con, client);
     	
-    	if(rental.getEndDate().after(new Date(System.currentTimeMillis()))) {
-    		System.out.println("A locação já venceu e não é possível renovar");
+    	if(rental == null) {
     		return;
     	}
     	
@@ -67,15 +66,15 @@ public class RentalController {
     	SellerBean seller = Utils.selectSeller(con);
     	
         System.out.print("Data de início (formato aaaa-mm-dd):");
-        String startDateString = input.nextLine();
+        String startDateString = input.next();
         Date startDate = Date.valueOf(startDateString);
 
         System.out.print("Data de término (formato aaaa-mm-dd): ");
-        String endDateString = input.nextLine();
+        String endDateString = input.next();
         Date endDate = Date.valueOf(endDateString);
         
         RentalBean renovatedRental = new RentalBean(startDate, endDate, rental.getRentalId(), rental.getVehicleId(), seller.getSellerId(), client.getClientId());
-        RentalModel.createRental(renovatedRental, con);
+        RentalModel.createRenovation(renovatedRental, con);
         System.out.println("Locação renovada com sucesso!");
     }
     
@@ -83,24 +82,10 @@ public class RentalController {
 		Scanner input = new Scanner(System.in);
 		List<RentalBean> rentals = null;
 
-		System.out.println("Digite o índice da característica do veículo a qual deseja utilizar na pesquisa:");
-		System.out.println("1 - veículo, 2 - cliente, 3 - data");
+		System.out.println("Digite o índice da informação a qual deseja utilizar na pesquisa:");
+		System.out.println("1 - veículo\n2 - cliente\n3 - data inicial da locação");
 
-		int index = -1;
-
-		while (true) {
-			try {
-				index = input.nextInt();
-				if (index >= 0 && index < 5) {
-					break;
-				} else {
-					System.out.println("Índice fora do intervalo. Tente novamente.");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Entrada inválida. Digite um número inteiro.");
-				input.next();
-			}
-		}
+		int index = Utils.indexSelector(1, 3);
 
 		switch (index) {
 			case 1:
@@ -117,11 +102,11 @@ public class RentalController {
 				break;
 			case 3:
 				System.out.println("Digite a data inicial da busca (formato aaaa-mm-dd):");
-		        String startDateString = input.nextLine();
+		        String startDateString = input.next();
 		        Date startDate = Date.valueOf(startDateString);
 		        
-		        System.out.print("Digite a data final da busca (formato aaaa-mm-dd):");
-		        String endDateString = input.nextLine();
+		        System.out.println("Digite a data final da busca (formato aaaa-mm-dd):");
+		        String endDateString = input.next();
 		        Date endDate = Date.valueOf(endDateString);
 		        
 		        rentals = RentalModel.searchRentalByDatePeriod(startDate, endDate, con);
@@ -144,23 +129,9 @@ public class RentalController {
 		
 		System.out.println("Para realizar essa operação, é necessário buscar uma alocação");
 		System.out.println("Você deseja realizar a busca dessa alocação de qual forma?");
-		System.out.println("1 - por cliente /n2 - por período/n3 - por veículo");
+		System.out.println("1 - por cliente\n2 - por período\n3 - por veículo");
 		
-		int index = -1;
-
-		while (true) {
-			try {
-				index = input.nextInt();
-				if (index >= 1 && index < 4) {
-					break;
-				} else {
-					System.out.println("Índice fora do intervalo. Tente novamente.");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Entrada inválida. Digite um número inteiro.");
-				input.next();
-			}
-		}
+		int index = Utils.indexSelector(1, 3);
 		
 		List<RentalBean> rentals = null;
 		
@@ -200,25 +171,11 @@ public class RentalController {
 			System.out.println(rental.toString());
 		}
 		
-		int rentalIndex = -1;
-
-		while (true) {
-			try {
-				rentalIndex = input.nextInt();
-				if (rentalIndex >= 1 && rentalIndex < rentals.size() + 1) {
-					break;
-				} else {
-					System.out.println("Índice fora do intervalo. Tente novamente.");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Entrada inválida. Digite um número inteiro.");
-				input.next();
-			}
-		}
+		int rentalIndex = Utils.indexSelector(0, rentals.size());
 		
 		RentalBean rental = rentals.get(rentalIndex);
 		int associatedRentalsAmount = RentalModel.countAssociatedRentals(rental, con);
 		
-		System.out.println("A quantidade de alocações/renovações associadas a essa alocação é de: " + associatedRentalsAmount);
+		System.out.println("A quantidade de alocações/renovações associadas a essa alocação é de: " + (associatedRentalsAmount - 1));
 	}
 }

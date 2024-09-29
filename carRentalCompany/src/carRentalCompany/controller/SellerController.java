@@ -22,7 +22,7 @@ public class SellerController {
         System.out.println("Insira os dados abaixo para cadastrar um novo vendedor:");
         
         System.out.print("Nome completo: ");
-        String sellerName = input.next();
+        String sellerName = input.nextLine();
 
         System.out.print("Telefone para contato: ");
         String sellerPhone = input.next();
@@ -44,12 +44,13 @@ public class SellerController {
 
 		do {
 
-			option = input.nextInt();
+			option = Utils.indexSelector(1, 4);
 
 			switch (option) {
 				case 1:
 					System.out.print("Digite o nome completo atualizado: ");
-					String name = input.next();
+					input.nextLine();
+					String name = input.nextLine();
 					seller.setSellerName(name);
 					break;
 	
@@ -83,18 +84,21 @@ public class SellerController {
     	Scanner input = new Scanner(System.in);
     	
     	System.out.println("Digite o nome do vendedor que deseja excluir");
-    	String name = input.next();
-    	
     	SellerBean seller = Utils.selectSeller(con);
+    	
+    	if(seller == null) {
+    		return;
+    	}
     	
     	System.out.println("Tem certeza que deseja excluir o vendedor " + seller.getSellerName() + "? S/N");
     	String option = input.next();
     	
-    	if(option == "S" || option == "s") {
+    	if(option.equals("S") || option.equals("s")) {
     		SellerModel.delete(seller, con);
-    		
     		System.out.println("Vendedor excluído com sucesso!");
-    	}
+    	} else {
+    		System.out.println("Operação cancelada");
+    	}	
     	
     }
     
@@ -133,11 +137,11 @@ public class SellerController {
     	Scanner input = new Scanner(System.in);
     	SellerBean seller = Utils.selectSeller(con);
     	
-		System.out.println("Digite a data inicial da busca (formato aaaa-mm-dd):");
+		System.out.println("Digite a data inicial do período (formato aaaa-mm-dd):");
         String startDateString = input.nextLine();
         Date startDate = Date.valueOf(startDateString);
         
-        System.out.print("Digite a data final da busca (formato aaaa-mm-dd):");
+        System.out.println("Digite a data final do período (formato aaaa-mm-dd):");
         String endDateString = input.nextLine();
         Date endDate = Date.valueOf(endDateString);
         

@@ -65,21 +65,7 @@ public class AddressController {
     		System.out.println(address.toString());
     	}
     	
-		int index = -1;
-
-		while (true) {
-			try {
-				index = input.nextInt();
-				if (index >= 0 && index < addresses.size()) {
-					break;
-				} else {
-					System.out.println("Índice fora do intervalo. Tente novamente.");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Entrada inválida. Digite um número inteiro.");
-				input.next();
-			}
-		}
+		int index = Utils.indexSelector(0, addresses.size());
 		
 		AddressBean address = addresses.get(index);
     	
@@ -148,22 +134,7 @@ public class AddressController {
     		address.toString();
     	}
     	
-        int index = -1;
-
-        while (true) {
-            try {
-                System.out.print("Digite o índice do endereço que deseja excluir: ");
-                index = input.nextInt();
-                if (index >= 0 && index < addresses.size()) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(0, addresses.size());
     	
         AddressModel.delete(addresses.get(index), con);
         System.out.println("Endereço excluído com sucesso!");
@@ -173,7 +144,7 @@ public class AddressController {
     	Scanner input = new Scanner(System.in);
     	
     	System.out.println("Digite o cpf do cliente que deseja listar os endereços");
-    	int cpf = input.nextInt();
+    	long cpf = input.nextLong();
     	
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
     	ArrayList<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
@@ -184,7 +155,7 @@ public class AddressController {
     	}
 
     	for(AddressBean address : addresses) {
-    		address.toString();
+    		System.out.println(address.toString());
     	}
     }
 }

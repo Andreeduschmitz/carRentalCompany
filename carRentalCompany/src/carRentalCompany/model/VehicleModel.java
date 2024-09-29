@@ -15,13 +15,14 @@ public class VehicleModel {
 	public static void create(VehicleBean vehicle, Connection connection) throws SQLException {
 		PreparedStatement ps;
 		ps = connection.prepareStatement("INSERT INTO public.vehicle(\n"
-				+ "	vehicleplate, vehiclemodel, vehiclelaunchyear, vehiclecategory, dailyvalue, brandid)\n"
+				+ "	vehicleplate, vehiclemodel, vehiclelaunchyear, vehiclecategory, dailyvalue, vehiclebrand)"
 				+ "	VALUES (?, ?, ?, ?, ?, ?);");
 		ps.setString(1, vehicle.getVehiclePlate());
 		ps.setString(2, vehicle.getVehicleModel());
 		ps.setInt(3, vehicle.getVehicleLaunchYear());
-		ps.setDouble(4, vehicle.getDailyValue());
-		ps.setInt(5, vehicle.getVehicleCategory().ordinal());
+		ps.setInt(4, vehicle.getVehicleCategory().ordinal());
+		ps.setDouble(5, vehicle.getDailyValue());
+		ps.setString(6, vehicle.getVehicleBrand());
 		
 		ps.execute();
 		ps.close();
@@ -76,13 +77,13 @@ public class VehicleModel {
 		String whereClause;
 		
 		if(vehicle.getVehiclePlate() != null) {
-			whereClause = " WHERE public.vehicle.vehicleplate LIKE '%?%';";
+			whereClause = " WHERE public.vehicle.vehicleplate LIKE ?;";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setString(1, vehicle.getVehiclePlate());
+			ps.setString(1, "%" + vehicle.getVehiclePlate() + "%");
 		} else if(vehicle.getVehicleModel() != null) {
-			whereClause = " WHERE public.vehicle.vehiclemodel LIKE '%?%';";
+			whereClause = " WHERE public.vehicle.vehiclemodel LIKE ?;";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setString(1, vehicle.getVehicleModel());
+			ps.setString(1,"%" + vehicle.getVehicleModel() + "%");
 		} else if(vehicle.getVehicleCategory() != null) {
 			whereClause = " WHERE public.vehicle.vehiclecategory = ?;";
 			ps = con.prepareStatement(selectClause + whereClause);
@@ -92,9 +93,9 @@ public class VehicleModel {
 			ps = con.prepareStatement(selectClause + whereClause);
 			ps.setDouble(1, vehicle.getDailyValue());
 		} else {
-			whereClause = " WHERE public.vehicle.vehiclebrand LIKE '%?%';";
+			whereClause = " WHERE public.vehicle.vehiclebrand LIKE ?;";
 			ps = con.prepareStatement(selectClause + whereClause);
-			ps.setString(1, vehicle.getVehicleBrand());
+			ps.setString(1,"%" + vehicle.getVehicleBrand() + "%");
 		}
 		
 		ResultSet result = ps.executeQuery();

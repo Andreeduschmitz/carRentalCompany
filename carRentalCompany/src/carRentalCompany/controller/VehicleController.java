@@ -31,7 +31,7 @@ public class VehicleController {
         System.out.print("Ano de lançamento: ");
         int vehicleLaunchYear = input.nextInt();
 
-        System.out.print("Categoria do veículo: ");
+        System.out.println("Categoria do veículo: ");
         VehicleCategory vehicleCategory = Utils.vehicleCategorySelector();
 
         System.out.print("Marca do veículo: ");
@@ -54,7 +54,7 @@ public class VehicleController {
         int option;
         
         do {
-        	option = input.nextInt();
+        	option = Utils.indexSelector(1, 3);
         	
             switch (option) {
             case 1:
@@ -77,7 +77,7 @@ public class VehicleController {
             	return;
         }
         	
-        } while (option < 1 || option > 3);
+        } while (option != 3);
         
         VehicleModel.update(vehicle, con);
         System.out.println("Informações atualizadas com sucesso!");
@@ -86,7 +86,6 @@ public class VehicleController {
     public static void deleteVehicle(Connection con) throws SQLException {
     	Scanner input = new Scanner(System.in);
     	
-    	System.out.println("Selecione o veículo que deseja excluir:");
     	VehicleBean vehicle = Utils.selectVehicle(con);
     	
     	if(Utils.isVehicleInUse(con, vehicle)) {
@@ -98,9 +97,11 @@ public class VehicleController {
     	
     	String option = input.next();
     	
-    	if(option == "S" || option == "s") {
+    	if(option.equals("S") || option.equals("s")) {
     		VehicleModel.detele(vehicle, con);
     		System.out.println("Veículo excluído com sucesso");
+    	} else {
+    		System.out.println("Operação cancelada");
     	}
     }
     
@@ -122,23 +123,9 @@ public class VehicleController {
     	VehicleBean vehicleSearch = new VehicleBean();
     	
     	System.out.println("Digite o índice da característica do veículo a qual deseja utilizar na pesquisa:");
-    	System.out.println("1 - placa, 2 - modelo, 3 - categoria, 4 - valor, 5 - marca");
+    	System.out.println("1 - placa, 2 - modelo, 3 - categoria, 4 - valor máximo da diária, 5 - marca");
     	
-        int index = -1;
-
-        while (true) {
-            try {
-                index = input.nextInt();
-                if (index >= 0 && index < 5) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(1, 5);
         
         switch(index) {
 	        case 1:
@@ -151,10 +138,10 @@ public class VehicleController {
 	            break;
 	        case 3:
 	            System.out.println("Digite a categoria do veículo:");
-	            vehicleSearch.setVehicleCategory(VehicleCategory.fromOrdinal(input.nextInt()));
+	            vehicleSearch.setVehicleCategory(Utils.vehicleCategorySelector());
 	            break;
 	        case 4:
-	            System.out.println("Digite o valor do veículo:");
+	            System.out.println("Digite o valor máximo desejado:");
 	            vehicleSearch.setDailyValue(input.nextDouble());
 	            break;
 	        case 5:
@@ -179,12 +166,12 @@ public class VehicleController {
     	Scanner input = new Scanner(System.in);
     	VehicleBean vehicle = Utils.selectVehicle(con);
     	
-		System.out.println("Digite a data inicial da busca (formato aaaa-mm-dd):");
-        String startDateString = input.nextLine();
+		System.out.println("Digite a data inicial do período (formato aaaa-mm-dd):");
+        String startDateString = input.next();
         Date startDate = Date.valueOf(startDateString);
         
-        System.out.print("Digite a data final da busca (formato aaaa-mm-dd):");
-        String endDateString = input.nextLine();
+        System.out.println("Digite a data final do período (formato aaaa-mm-dd):");
+        String endDateString = input.next();
         Date endDate = Date.valueOf(endDateString);
         
         List<RentalBean> rentals = RentalModel.searchRentalByVehicleAndPeriod(vehicle, startDate, endDate, con);
@@ -194,10 +181,10 @@ public class VehicleController {
         	return;
         }
         
-        Long daysAmount = 0l;
+        long daysAmount = 0l;
         
         for(RentalBean rental : rentals) {
-        	daysAmount += ChronoUnit.DAYS.between(rental.getStartDate().toInstant(), rental.getEndDate().toInstant());
+        	daysAmount += Utils.calculateDaysBetweenDates(rental.getStartDate(), rental.getEndDate());
         }
         
         Double billing = daysAmount * vehicle.getDailyValue();

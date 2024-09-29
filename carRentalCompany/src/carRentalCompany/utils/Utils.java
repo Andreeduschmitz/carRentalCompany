@@ -34,17 +34,22 @@ public class Utils {
     	VehicleCategory[] categorys = VehicleCategory.values();
     	
     	for(int i = 0; i < categorys.length; i++) {
-    		System.out.println(i + " - " + categorys[i].toString());
+    		System.out.println(i + 1 + " - " + categorys[i].toString());
     	}
     	
     	Scanner input = new Scanner(System.in);
     	int option = input.nextInt();
     	
-    	return VehicleCategory.fromOrdinal(option);
+    	return VehicleCategory.fromOrdinal(option - 1);
     }
     
     public static SellerBean selectSeller(Connection con) throws SQLException {
     	ArrayList<SellerBean> sellers = SellerModel.listAll(con);
+    	
+    	if(sellers == null || sellers.isEmpty()) {
+    		System.out.println("Não há nenhum vendedor cadastrado");
+    		return null;
+    	}
 
     	for(SellerBean seller : sellers) {
     		System.out.println(seller.toString());
@@ -127,7 +132,7 @@ public class Utils {
         return clients.get(index);
     }
     
-    public static ClientBean selectClientBySearch(Connection con, int cpf, String name) throws SQLException {
+    public static ClientBean selectClientBySearch(Connection con, long cpf, String name) throws SQLException {
     	ArrayList<ClientBean> clients = ClientModel.search(cpf, name, con);
     	
     	for(ClientBean client : clients) {
@@ -157,6 +162,11 @@ public class Utils {
 
 	public static RentalBean selectRentalByClient(Connection con, ClientBean client) throws SQLException {
 		ArrayList<RentalBean> rentals = RentalModel.searchRentalByClient(client, con);
+		
+		if(rentals == null || rentals.isEmpty()) {
+			System.out.println("Esse cliente não possui nenhuma locação");
+			return null;
+		}
 		
 		for(RentalBean rental : rentals) {
 			System.out.println(rental.toString());
@@ -212,5 +222,18 @@ public class Utils {
 		}
 		
 		return index;
+	}
+	
+	public static long calculateDaysBetweenDates(Date startDate, Date endDate) {
+		Calendar start = Calendar.getInstance();
+		Calendar end = Calendar.getInstance();
+		
+		start.setTime(startDate);
+		end.setTime(endDate);
+		
+		long diffInMillis = end.getTimeInMillis() - start.getTimeInMillis();
+		long diffInDays = diffInMillis / (24 * 60 * 60 * 1000);
+		
+		return diffInDays;
 	}
 }

@@ -16,7 +16,7 @@ public class SellerModel {
 		PreparedStatement ps;
 		ps = connection.prepareStatement("INSERT INTO public.seller("
 				+ "	sellername, sellerphone, selleremail)"
-				+ "	VALUES ( ?, ?, ?);");
+				+ "	VALUES (?, ?, ?);");
 		ps.setString(1, seller.getSellerName());
 		ps.setString(2, seller.getSellerPhone());
 		ps.setString(3, seller.getSellerEmail());
@@ -33,6 +33,7 @@ public class SellerModel {
 		ps.setString(1, seller.getSellerName());
 		ps.setString(2, seller.getSellerPhone());
 		ps.setString(3, seller.getSellerEmail());
+		ps.setInt(4, seller.getSellerId());
 		
 		ps.execute();
 		ps.close();
@@ -41,7 +42,7 @@ public class SellerModel {
 	public static void delete(SellerBean seller, Connection connection) throws SQLException {
 		PreparedStatement ps;
 		ps = connection.prepareStatement("DELETE FROM public.seller"
-				+ "	WHERE public.seller.id=?;");
+				+ "	WHERE public.seller.sellerid=?;");
 		ps.setInt(1, seller.getSellerId());
 		
 		ps.execute();
@@ -67,8 +68,8 @@ public class SellerModel {
 		PreparedStatement ps;
 		ArrayList<SellerBean> list = new ArrayList<SellerBean>();
 		
-		ps = con.prepareStatement("SELECT sellerid, sellername, sellerphone, selleremail FROM public.seller WHERE public.seller.sellername LIKE '%?%';");
-		ps.setString(1, name);
+		ps = con.prepareStatement("SELECT sellerid, sellername, sellerphone, selleremail FROM public.seller WHERE public.seller.sellername LIKE ?;");
+		ps.setString(1,"%" + name + "%");
 		ResultSet result = ps.executeQuery();
 		
 	    while(result.next()) {

@@ -65,7 +65,7 @@ public class AddressModel {
 		ArrayList<AddressBean> addresses = new ArrayList<AddressBean>();
 		
 		while(result.next()) {
-			addresses.add(new AddressBean(result.getInt(0), result.getInt(1), result.getString(2), result.getString(3), result.getInt(4), result.getString(5), result.getInt(6)));
+			addresses.add(new AddressBean(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getInt(5), result.getString(6), result.getInt(7)));
 		}
 		
 		return addresses;

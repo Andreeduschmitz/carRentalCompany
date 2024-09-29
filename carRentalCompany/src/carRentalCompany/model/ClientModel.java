@@ -33,6 +33,7 @@ public class ClientModel {
 		ps.setLong(2, client.getClientCpf());
 		ps.setString(3, client.getClientPhone());
 		ps.setString(4, client.getClientEmail());
+		ps.setInt(5, client.getClientId());
 		ps.execute();
 		ps.close();
 	}
@@ -66,9 +67,9 @@ public class ClientModel {
 		String whereClause = " WHERE ";
 
 		if(name != null) {
-			whereClause += "public.client.clientname LIKE '%?%';";
-			ps = connection.prepareStatement(selectClause + whereClause);
-			ps.setString(1, name);
+	        whereClause += "public.client.clientname LIKE ?;";
+	        ps = connection.prepareStatement(selectClause + whereClause);
+	        ps.setString(1, "%" + name + "%");
 		} else {
 			whereClause += "public.client.clientcpf = ?;";
 			ps = connection.prepareStatement(selectClause + whereClause);
