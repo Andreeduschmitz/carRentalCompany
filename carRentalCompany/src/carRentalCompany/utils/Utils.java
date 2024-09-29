@@ -55,14 +55,16 @@ public class Utils {
     	
     	System.out.println("Selecione o número do vendedor");
 
+    	int number = 1;
     	for(SellerBean seller : sellers) {
-    		System.out.println(seller.toString());
+    		System.out.println(number + " - " + seller.toString());
+    		number++;
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = Utils.indexSelector(0, sellers.size());
+        int index = Utils.indexSelector(1, sellers.size() + 1);
 
-        return sellers.get(index);
+        return sellers.get(index - 1);
     }
     
     public static VehicleBean selectVehicle(Connection con) throws SQLException {
@@ -75,14 +77,16 @@ public class Utils {
     	
     	System.out.println("Selecione o número do veículo");
 
+    	int number = 1;
     	for(VehicleBean vehicle : vehicles) {
-    		System.out.println(vehicle.toString());
+    		System.out.println(number + " - " + vehicle.toString());
+    		number++;
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = Utils.indexSelector(0, vehicles.size());
+        int index = Utils.indexSelector(1, vehicles.size() + 1);
 
-        return vehicles.get(index);
+        return vehicles.get(index - 1);
     }
     
     public static ClientBean selectClient(Connection con) throws SQLException {
@@ -95,14 +99,16 @@ public class Utils {
     	
     	System.out.println("Selecione o número do cliente");
     	
+    	int number = 1;
     	for(ClientBean client : clients) {
-    		System.out.println(client.toString());
+    		System.out.println(number + " - " + client.toString());
+    		number++;
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = Utils.indexSelector(0, clients.size());
+        int index = Utils.indexSelector(1, clients.size() + 1);
         
-        return clients.get(index);
+        return clients.get(index - 1);
     }
     
     public static ClientBean selectClientBySearch(Connection con, long cpf, String name) throws SQLException {
@@ -115,14 +121,16 @@ public class Utils {
     	
     	System.out.println("Selecione o número do cliente");
     	
+    	int number = 1;
     	for(ClientBean client : clients) {
-    		System.out.println(client.toString());
+    		System.out.println(number + " - " + client.toString());
+    		number++;
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = Utils.indexSelector(0, clients.size());
+        int index = Utils.indexSelector(1, clients.size() + 1);
         
-        return clients.get(index);
+        return clients.get(index - 1);
     }
 
 	public static RentalBean selectRentalByClient(Connection con, ClientBean client) throws SQLException {
@@ -135,14 +143,16 @@ public class Utils {
 		
 		System.out.println("Selecione o número da locação");
 		
+		int number = 1;
 		for(RentalBean rental : rentals) {
-			System.out.println(rental.toString());
+			System.out.println(number + " - " + rental.toString());
+			number++;
 		}
 		
         Scanner input = new Scanner(System.in);
-        int index = Utils.indexSelector(0, rentals.size());
+        int index = Utils.indexSelector(1, rentals.size() + 1);
 
-        return rentals.get(index);
+        return rentals.get(index - 1);
 	}
 	
 	public static Boolean isVehicleInUse(Connection con, VehicleBean vehicle) throws SQLException {
