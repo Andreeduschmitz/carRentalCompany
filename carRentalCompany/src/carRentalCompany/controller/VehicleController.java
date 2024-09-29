@@ -48,6 +48,11 @@ public class VehicleController {
 
     public static void updateVehicle(Connection con) throws SQLException {
     	VehicleBean vehicle = Utils.selectVehicle(con);
+    	
+    	if(vehicle == null) {
+    		return;
+    	}
+    	
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Placa\n2 - Valor da diária\n3 - Cancelar");
 
@@ -58,13 +63,13 @@ public class VehicleController {
         	
             switch (option) {
             case 1:
-                System.out.print("Digite a nova placa: ");
+                System.out.println("Digite a nova placa: ");
                 String plate = input.next();
                 vehicle.setVehiclePlate(plate);
                 break;
 
             case 2:
-                System.out.print("Digite o novo valor da diária: ");
+                System.out.println("Digite o novo valor da diária: ");
                 double value = input.nextDouble();
                 vehicle.setDailyValue(value);
                 break;
@@ -87,6 +92,10 @@ public class VehicleController {
     	Scanner input = new Scanner(System.in);
     	
     	VehicleBean vehicle = Utils.selectVehicle(con);
+    	
+    	if(vehicle == null) {
+    		return;
+    	}
     	
     	if(Utils.isVehicleInUse(con, vehicle)) {
     		System.out.println("Este veículo está atualmente em uso e não pode ser excluído");
@@ -166,13 +175,15 @@ public class VehicleController {
     	Scanner input = new Scanner(System.in);
     	VehicleBean vehicle = Utils.selectVehicle(con);
     	
-		System.out.println("Digite a data inicial do período (formato aaaa-mm-dd):");
-        String startDateString = input.next();
-        Date startDate = Date.valueOf(startDateString);
+    	if(vehicle == null) {
+    		return;
+    	}
+    	
+		System.out.println("Digite a data inicial do período (formato dd-MM-yyyy):");
+        Date startDate = Utils.safeDateInput();
         
-        System.out.println("Digite a data final do período (formato aaaa-mm-dd):");
-        String endDateString = input.next();
-        Date endDate = Date.valueOf(endDateString);
+        System.out.println("Digite a data final do período (formato dd-MM-yyyy):");
+        Date endDate = Utils.safeDateInput();
         
         List<RentalBean> rentals = RentalModel.searchRentalByVehicleAndPeriod(vehicle, startDate, endDate, con);
         

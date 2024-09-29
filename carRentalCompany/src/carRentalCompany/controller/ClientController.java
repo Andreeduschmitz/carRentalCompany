@@ -16,16 +16,16 @@ public class ClientController {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar um novo cliente:");
         
-        System.out.print("Nome completo: ");
+        System.out.println("Nome completo: ");
         String clientName = input.nextLine();
 
-        System.out.print("CPF: ");
+        System.out.println("CPF: ");
         long clientCpf = input.nextLong();
 
-        System.out.print("Telefone para contato: ");
+        System.out.println("Telefone para contato: ");
         String clientPhone = input.next();
 
-        System.out.print("E-mail: ");
+        System.out.println("E-mail: ");
         String clientEmail = input.next();
 
         ClientBean client = new ClientBean(clientName, clientCpf, clientPhone, clientEmail);
@@ -45,6 +45,11 @@ public class ClientController {
 
     public static void updateClient(Connection con) throws SQLException {
     	ClientBean client = Utils.selectClient(con);
+    	
+    	if(client == null) {
+    		return;
+    	}
+    	
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Nome\n2 - Telefone\n3 - E-mail\n4 - Cancelar");
 
@@ -55,20 +60,20 @@ public class ClientController {
 
 			switch (option) {
 				case 1:
-					System.out.print("Digite o nome completo atualizado: ");
+					System.out.println("Digite o nome completo atualizado: ");
 					input.nextLine();
 					String name = input.nextLine();
 					client.setClientName(name);
 					break;
 	
 				case 2:
-					System.out.print("Digite o telefone atualizado: ");
+					System.out.println("Digite o telefone atualizado: ");
 					String phoneNumber = input.next();
 					client.setClientPhone(phoneNumber);
 					break;
 	
 				case 3:
-					System.out.print("Digite o e-mail atualizado: ");
+					System.out.println("Digite o e-mail atualizado: ");
 					String email = input.next();
 					client.setClientEmail(email);
 					break;
@@ -94,7 +99,11 @@ public class ClientController {
     	
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
     	
-    	System.out.println("Tem certeza que deseja excluir o cliente " + client.getClientName() + "? S/N");
+    	if(client == null) {
+    		return;
+    	}
+    	
+    	System.out.println("Tem certeza que deseja excluir esse cliente? S/N");
     	String option = input.next();
     	
     	if(option.equals("S") || option.equals("s")) {

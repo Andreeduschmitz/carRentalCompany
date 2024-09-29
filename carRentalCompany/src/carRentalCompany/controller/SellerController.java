@@ -21,13 +21,13 @@ public class SellerController {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar um novo vendedor:");
         
-        System.out.print("Nome completo: ");
+        System.out.println("Nome completo: ");
         String sellerName = input.nextLine();
 
-        System.out.print("Telefone para contato: ");
+        System.out.println("Telefone para contato: ");
         String sellerPhone = input.next();
 
-        System.out.print("E-mail: ");
+        System.out.println("E-mail: ");
         String sellerEmail = input.next();
 
         SellerBean seller = new SellerBean(sellerName, sellerPhone, sellerEmail);
@@ -37,6 +37,11 @@ public class SellerController {
 	
     public static void updateSeller(Connection con) throws SQLException {
     	SellerBean seller = Utils.selectSeller(con);
+    	
+    	if(seller == null) {
+    		return;
+    	}
+    	
         Scanner input = new Scanner(System.in);
         System.out.println("O que você deseja atualizar?\n1 - Nome\n2 - Telefone\n3 - E-mail\n4 - Cancelar");
         
@@ -48,21 +53,21 @@ public class SellerController {
 
 			switch (option) {
 				case 1:
-					System.out.print("Digite o nome completo atualizado: ");
+					System.out.println("Digite o nome completo atualizado: ");
 					input.nextLine();
 					String name = input.nextLine();
 					seller.setSellerName(name);
 					break;
 	
 				case 2:
-					System.out.print("Digite o telefone atualizado: ");
+					System.out.println("Digite o telefone atualizado: ");
 					String phoneNumber = input.next();
 					seller.setSellerPhone(phoneNumber);
 					;
 					break;
 	
 				case 3:
-					System.out.print("Digite o e-mail atualizado: ");
+					System.out.println("Digite o e-mail atualizado: ");
 					String email = input.next();
 					seller.setSellerEmail(email);
 					break;
@@ -90,7 +95,7 @@ public class SellerController {
     		return;
     	}
     	
-    	System.out.println("Tem certeza que deseja excluir o vendedor " + seller.getSellerName() + "? S/N");
+    	System.out.println("Tem certeza que deseja excluir esse vendedor? S/N");
     	String option = input.next();
     	
     	if(option.equals("S") || option.equals("s")) {
@@ -137,13 +142,15 @@ public class SellerController {
     	Scanner input = new Scanner(System.in);
     	SellerBean seller = Utils.selectSeller(con);
     	
-		System.out.println("Digite a data inicial do período (formato aaaa-mm-dd):");
-        String startDateString = input.nextLine();
-        Date startDate = Date.valueOf(startDateString);
+    	if(seller == null) {
+    		return;
+    	}
+    	
+		System.out.println("Digite a data inicial do período (formato dd-MM-yyyy):");
+        Date startDate = Utils.safeDateInput();
         
-        System.out.println("Digite a data final do período (formato aaaa-mm-dd):");
-        String endDateString = input.nextLine();
-        Date endDate = Date.valueOf(endDateString);
+        System.out.println("Digite a data final do período (formato dd-MM-yyyy):");
+        Date endDate = Utils.safeDateInput();
         
         List<RentalBean> rentals = RentalModel.searchRentalByDatePeriodAndSeller(startDate, endDate, seller, con);
         

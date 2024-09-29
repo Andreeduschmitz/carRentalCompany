@@ -23,16 +23,16 @@ public class AddressController {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar um novo endereço:");
         
-        System.out.print("CEP: ");
+        System.out.println("CEP: ");
         int addressCep = input.nextInt();
 
-        System.out.print("Rua: ");
+        System.out.println("Rua: ");
         String addressStreet = input.next();
 
-        System.out.print("Bairro: ");
+        System.out.println("Bairro: ");
         String addressNeighborhood = input.next();
 
-        System.out.print("Número: ");
+        System.out.println("Número: ");
         int addressNumber = input.nextInt();
 
         System.out.println("Deseja informar complemento? S/N");
@@ -40,7 +40,7 @@ public class AddressController {
 
         String addressComplement = null;
         if (option.equals("S") || option.equals("s")) {
-            System.out.print("Informe o complemento: ");
+            System.out.println("Informe o complemento: ");
             addressComplement = input.next();
         }
 
@@ -52,6 +52,11 @@ public class AddressController {
     public static void updateAddress(Connection con) throws SQLException {
         Scanner input = new Scanner(System.in);
     	ClientBean client = Utils.selectClient(con);
+    	
+    	if(client == null) {
+    		return;
+    	}
+    	
     	List<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
     	
     	if(addresses == null || addresses.isEmpty()) {
@@ -128,10 +133,22 @@ public class AddressController {
     	int cpf = input.nextInt();
     	
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
+    	
+    	if(client == null) {
+    		return;
+    	}
+    	
     	ArrayList<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
+    	
+    	if(addresses == null || addresses.isEmpty()) {
+    		System.out.println("Nenhum endereço encontrado para este cliente");
+    		return;
+    	}
+    	
+    	System.out.println("Selecione o endereço que deseja excluir");
 
     	for(AddressBean address : addresses) {
-    		address.toString();
+    		System.out.println(address.toString());
     	}
     	
         int index = Utils.indexSelector(0, addresses.size());
@@ -147,6 +164,11 @@ public class AddressController {
     	long cpf = input.nextLong();
     	
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
+    	
+    	if(client == null) {
+    		return;
+    	}
+    	
     	ArrayList<AddressBean> addresses = AddressModel.findAddressByClient(client, con);
     	
     	if(addresses == null || addresses.isEmpty()) {

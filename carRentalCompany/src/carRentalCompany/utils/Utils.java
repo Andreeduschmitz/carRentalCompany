@@ -3,6 +3,8 @@ package carRentalCompany.utils;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
@@ -56,50 +58,25 @@ public class Utils {
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = -1;
-
-        while (true) {
-            try {
-                System.out.print("Digite o índice do vendedor que deseja selecionar: ");
-                index = input.nextInt();
-                if (index >= 0 && index < sellers.size()) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(0, sellers.size());
 
         return sellers.get(index);
     }
     
     public static VehicleBean selectVehicle(Connection con) throws SQLException {
     	ArrayList<VehicleBean> vehicles = VehicleModel.listAll(con);
+    	
+    	if(vehicles == null || vehicles.isEmpty()) {
+    		System.out.println("Não há nenhum veículo cadastrado");
+    		return null;
+    	}
 
     	for(VehicleBean vehicle : vehicles) {
     		System.out.println(vehicle.toString());
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = -1;
-
-        while (true) {
-            try {
-                System.out.print("Digite o índice do veículo que deseja selecionar: ");
-                index = input.nextInt();
-                if (index >= 0 && index < vehicles.size()) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(0, vehicles.size());
 
         return vehicles.get(index);
     }
@@ -107,27 +84,17 @@ public class Utils {
     public static ClientBean selectClient(Connection con) throws SQLException {
     	ArrayList<ClientBean> clients = ClientModel.listAll(con);
     	
+    	if(clients == null || clients.isEmpty()) {
+    		System.out.println("Não há nenhum cliente cadastrado");
+    		return null;
+    	}
+    	
     	for(ClientBean client : clients) {
     		System.out.println(client.toString());
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = -1;
-
-        while (true) {
-            try {
-                System.out.print("Digite o índice do cliente que deseja selecionar: ");
-                index = input.nextInt();
-                if (index >= 0 && index < clients.size()) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(0, clients.size());
         
         return clients.get(index);
     }
@@ -135,27 +102,17 @@ public class Utils {
     public static ClientBean selectClientBySearch(Connection con, long cpf, String name) throws SQLException {
     	ArrayList<ClientBean> clients = ClientModel.search(cpf, name, con);
     	
+    	if(clients == null || clients.isEmpty()) {
+    		System.out.println("Nenhum cliente encontrado");
+    		return null;
+    	}
+    	
     	for(ClientBean client : clients) {
     		System.out.println(client.toString());
     	}
     	
         Scanner input = new Scanner(System.in);
-        int index = -1;
-
-        while (true) {
-            try {
-                System.out.print("Digite o índice do cliente que deseja selecionar: ");
-                index = input.nextInt();
-                if (index >= 0 && index < clients.size()) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(0, clients.size());
         
         return clients.get(index);
     }
@@ -173,22 +130,7 @@ public class Utils {
 		}
 		
         Scanner input = new Scanner(System.in);
-        int index = -1;
-
-        while (true) {
-            try {
-                System.out.print("Digite o índice da locação que deseja selecionar: ");
-                index = input.nextInt();
-                if (index >= 0 && index < rentals.size()) {
-                    break;
-                } else {
-                    System.out.println("Índice fora do intervalo. Tente novamente.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número inteiro.");
-                input.next();
-            }
-        }
+        int index = Utils.indexSelector(0, rentals.size());
 
         return rentals.get(index);
 	}
@@ -236,4 +178,27 @@ public class Utils {
 		
 		return diffInDays;
 	}
+	
+    public static Date safeDateInput() {
+        Scanner input = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setLenient(false);
+
+        Date date = null;
+        boolean valid = false;
+
+        while (!valid) {
+            String dateString = input.next();
+
+            try {
+                java.util.Date utilDate = dateFormat.parse(dateString);
+                date = new Date(utilDate.getTime());
+                valid = true;
+            } catch (ParseException e) {
+                System.out.println("Data inválida, tente novamente.");
+            }
+        }
+
+        return date;
+    }
 }

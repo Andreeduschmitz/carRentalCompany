@@ -25,22 +25,32 @@ public class RentalController {
         Scanner input = new Scanner(System.in);
         System.out.println("Insira os dados abaixo para cadastrar uma nova locação:");
         
-        System.out.print("Data de início (formato aaaa-mm-dd):");
-        String startDateString = input.next();
-        Date startDate = Date.valueOf(startDateString);
+        System.out.println("Data de início (formato dd-MM-yyyy):");
+        Date startDate = Utils.safeDateInput();
 
-        System.out.print("Data de término (formato aaaa-mm-dd): ");
-        String endDateString = input.next();
-        Date endDate = Date.valueOf(endDateString);
+        System.out.println("Data de término (formato dd-MM-yyyy): ");
+        Date endDate = Utils.safeDateInput();
         
         System.out.println("Selecione o vendedor responsável:");
         SellerBean seller = Utils.selectSeller(con);
         
+        if(seller == null) {
+        	return;
+        }
+        
         System.out.println("Selecione o veículo que será alugado");
         VehicleBean vehicle = Utils.selectVehicle(con);
         
+        if(vehicle == null) {
+        	return;
+        }
+        
         System.out.println("Selecione o cliente que irá alugar o veículo");
         ClientBean client = Utils.selectClient(con);
+        
+        if(client == null) {
+        	return;
+        }
 
         RentalBean rental = new RentalBean(startDate, endDate, null, vehicle.getVehicleId(), seller.getSellerId(), client.getClientId());
         RentalModel.createRental(rental, con);
@@ -55,6 +65,10 @@ public class RentalController {
     	long cpf = input.nextLong();
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
     	
+    	if(client == null) {
+    		return;
+    	}
+    	
     	System.out.println("Selecione a locação a ser renovada");
     	RentalBean rental = Utils.selectRentalByClient(con, client);
     	
@@ -65,13 +79,15 @@ public class RentalController {
     	System.out.println("Selecione o vendedor responsável pela renovação");
     	SellerBean seller = Utils.selectSeller(con);
     	
-        System.out.print("Data de início (formato aaaa-mm-dd):");
-        String startDateString = input.next();
-        Date startDate = Date.valueOf(startDateString);
+    	if(seller == null) {
+    		return;
+    	}
+    	
+        System.out.println("Data de início (formato dd-MM-yyyy):");
+        Date startDate = Utils.safeDateInput();
 
-        System.out.print("Data de término (formato aaaa-mm-dd): ");
-        String endDateString = input.next();
-        Date endDate = Date.valueOf(endDateString);
+        System.out.println("Data de término (formato dd-MM-yyyy): ");
+        Date endDate = Utils.safeDateInput();
         
         RentalBean renovatedRental = new RentalBean(startDate, endDate, rental.getRentalId(), rental.getVehicleId(), seller.getSellerId(), client.getClientId());
         RentalModel.createRenovation(renovatedRental, con);
@@ -92,22 +108,28 @@ public class RentalController {
 				System.out.println("Selecione o veículo que deseja buscar o aluguel:");
 				VehicleBean vehicle = Utils.selectVehicle(con);
 				
+				if(vehicle == null) {
+					return;
+				}
+				
 				rentals = RentalModel.searchRentalByVehicle(vehicle, con);
 				break;
 			case 2:
 		        System.out.println("Selecione o cliente que deseja buscar o aluguel");
 		        ClientBean client = Utils.selectClient(con);
 		        
+		        if(client == null) {
+		        	return;
+		        }
+		        
 		        rentals = RentalModel.searchRentalByClient(client, con);
 				break;
 			case 3:
-				System.out.println("Digite a data inicial da busca (formato aaaa-mm-dd):");
-		        String startDateString = input.next();
-		        Date startDate = Date.valueOf(startDateString);
+				System.out.println("Digite a data inicial da busca (formato dd-MM-yyyy):");
+		        Date startDate = Utils.safeDateInput();
 		        
-		        System.out.println("Digite a data final da busca (formato aaaa-mm-dd):");
-		        String endDateString = input.next();
-		        Date endDate = Date.valueOf(endDateString);
+		        System.out.println("Digite a data final da busca (formato dd-MM-yyyy):");
+		        Date endDate = Utils.safeDateInput();
 		        
 		        rentals = RentalModel.searchRentalByDatePeriod(startDate, endDate, con);
 				break;
@@ -138,17 +160,20 @@ public class RentalController {
 		switch(index) {
 			case 1:
 				ClientBean client = Utils.selectClient(con);
+				
+				if(client == null) {
+					return;
+				}
+				
 				rentals = RentalModel.searchRentalByClient(client, con);
 
 				break;
 			case 2:
-		        System.out.print("Data de início (formato aaaa-mm-dd):");
-		        String startDateString = input.nextLine();
-		        Date startDate = Date.valueOf(startDateString);
+		        System.out.println("Data de início (formato dd-MM-yyyy):");
+		        Date startDate = Utils.safeDateInput();
 
-		        System.out.print("Data de término (formato aaaa-mm-dd): ");
-		        String endDateString = input.nextLine();
-		        Date endDate = Date.valueOf(endDateString);
+		        System.out.println("Data de término (formato dd-MM-yyyy): ");
+		        Date endDate = Utils.safeDateInput();
 
 		        rentals = RentalModel.searchRentalByDatePeriod(startDate, endDate, con);
 		        
