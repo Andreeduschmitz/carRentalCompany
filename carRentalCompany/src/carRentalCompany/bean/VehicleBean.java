@@ -10,6 +10,7 @@ public class VehicleBean {
 	private String vehicleBrand;
 	private VehicleCategory vehicleCategory;
 	private Double dailyValue;
+	private boolean isActive;
 	
 	public VehicleBean(String vehiclePlate, String vehicleModel, int vehicleLaunchYear, String vehicleBrand, VehicleCategory vehicleCategory, Double dailyValue) {
 		this.vehiclePlate = vehiclePlate;
@@ -87,11 +88,24 @@ public class VehicleBean {
 	public void setDailyValue(Double dailyValue) {
 		this.dailyValue = dailyValue;
 	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	@Override
 	public String toString() {
-		return "VehicleBean [vehicleId=" + vehicleId + ", vehiclePlate=" + vehiclePlate + ", vehicleModel="
-				+ vehicleModel + ", vehicleLaunchYear=" + vehicleLaunchYear + ", vehicleBrand=" + vehicleBrand
-				+ ", vehicleCategory=" + vehicleCategory + ", dailyValue=" + dailyValue + "]";
+	    return String.format("Veículo: %s - Placa: %s - Modelo: %s - Ano: %d - Marca: %s - Categoria: %s - Valor Diário: R$ %.2f",
+	            vehicleModel,
+	            vehiclePlate,
+	            vehicleModel,
+	            vehicleLaunchYear,
+	            vehicleBrand,
+	            vehicleCategory,
+	            dailyValue);
 	}
 }

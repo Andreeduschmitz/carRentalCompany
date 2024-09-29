@@ -6,6 +6,7 @@ public class ClientBean {
 	private long clientCpf;
 	private String clientPhone;
 	private String clientEmail;
+	private boolean isActive;
 
 	public ClientBean(String clientName, long clientCpf, String clientPhone, String clientEmail) {
 		super();
@@ -63,9 +64,20 @@ public class ClientBean {
 		this.clientEmail = clientEmail;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
-		return "ClientBean [clientId=" + clientId + ", clientName=" + clientName + ", clientCpf=" + clientCpf
-				+ ", clientPhone=" + clientPhone + ", clientEmail=" + clientEmail + "]";
+	    return String.format("Cliente: %s - CPF: %s - Telefone: %s - Email: %s",
+	            clientName,
+	            clientCpf,
+	            clientPhone,
+	            clientEmail != null ? clientEmail : "Não informado");
 	}
 }

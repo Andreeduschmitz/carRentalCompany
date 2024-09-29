@@ -90,8 +90,11 @@ public class RentalBean {
 
 	@Override
 	public String toString() {
-		return "RentalBean [rentalId=" + rentalId + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", renovationId=" + renovationId + ", vehicleId=" + vehicleId + ", sellerId=" + sellerId
-				+ ", clientId=" + clientId + "]";
+	    return String.format("Locação: Início: %s - Fim: %s - Veículo ID: %s - Vendedor ID: %s - Cliente ID: %s",
+	            startDate,
+	            endDate,
+	            vehicleId,
+	            sellerId,
+	            clientId);
 	}
 }

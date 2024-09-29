@@ -52,6 +52,8 @@ public class Utils {
     		System.out.println("Não há nenhum vendedor cadastrado");
     		return null;
     	}
+    	
+    	System.out.println("Selecione o número do vendedor");
 
     	for(SellerBean seller : sellers) {
     		System.out.println(seller.toString());
@@ -70,6 +72,8 @@ public class Utils {
     		System.out.println("Não há nenhum veículo cadastrado");
     		return null;
     	}
+    	
+    	System.out.println("Selecione o número do veículo");
 
     	for(VehicleBean vehicle : vehicles) {
     		System.out.println(vehicle.toString());
@@ -89,6 +93,8 @@ public class Utils {
     		return null;
     	}
     	
+    	System.out.println("Selecione o número do cliente");
+    	
     	for(ClientBean client : clients) {
     		System.out.println(client.toString());
     	}
@@ -107,6 +113,8 @@ public class Utils {
     		return null;
     	}
     	
+    	System.out.println("Selecione o número do cliente");
+    	
     	for(ClientBean client : clients) {
     		System.out.println(client.toString());
     	}
@@ -124,6 +132,8 @@ public class Utils {
 			System.out.println("Esse cliente não possui nenhuma locação");
 			return null;
 		}
+		
+		System.out.println("Selecione o número da locação");
 		
 		for(RentalBean rental : rentals) {
 			System.out.println(rental.toString());

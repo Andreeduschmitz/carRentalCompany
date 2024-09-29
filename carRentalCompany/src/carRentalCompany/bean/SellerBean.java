@@ -5,6 +5,7 @@ public class SellerBean {
 	private String sellerName;
 	private String sellerPhone;
 	private String sellerEmail;
+	private boolean isActive;
 
 	public SellerBean(String sellerName, String sellerPhone, String sellerEmail) {
 		this.sellerName = sellerName;
@@ -50,10 +51,20 @@ public class SellerBean {
 	public void setSellerEmail(String sellerEmail) {
 		this.sellerEmail = sellerEmail;
 	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	@Override
 	public String toString() {
-		return "SellerBean [sellerId=" + sellerId + ", sellerName=" + sellerName + ", sellerPhone=" + sellerPhone
-				+ ", sellerEmail=" + sellerEmail + "]";
+	    return String.format("Vendedor: %s - Telefone: %s - Email: %s",
+	            sellerName,
+	            sellerPhone,
+	            sellerEmail != null ? sellerEmail : "Não informado");
 	}
 }

@@ -88,8 +88,12 @@ public class AddressBean {
 
 	@Override
 	public String toString() {
-		return "AddressBean [addressId=" + addressId + ", addressCep=" + addressCep + ", addressStreet=" + addressStreet
-				+ ", addressNeighborhood=" + addressNeighborhood + ", addressNumber=" + addressNumber
-				+ ", addressComplement=" + addressComplement + ", clientId=" + clientId + "]";
+	    return String.format("CEP do endereço: %s - Rua: %s - Bairro: %s - Número: %s%s - ID do Cliente: %s",
+	            addressCep,
+	            addressStreet,
+	            addressNeighborhood,
+	            addressNumber,
+	            (addressComplement != null && !addressComplement.isEmpty()) ? " - Complemento: " + addressComplement : "",
+	            clientId);
 	}
 }
