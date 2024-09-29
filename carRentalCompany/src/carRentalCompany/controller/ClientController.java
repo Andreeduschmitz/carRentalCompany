@@ -17,7 +17,7 @@ public class ClientController {
         System.out.println("Insira os dados abaixo para cadastrar um novo cliente:");
         
         System.out.print("Nome completo: ");
-        String clientName = input.next();
+        String clientName = input.nextLine();
 
         System.out.print("CPF: ");
         int clientCpf = input.nextInt();
