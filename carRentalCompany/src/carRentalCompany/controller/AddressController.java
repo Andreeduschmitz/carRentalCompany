@@ -30,6 +30,7 @@ public class AddressController {
         String addressStreet = input.next();
 
         System.out.println("Bairro: ");
+        input.nextLine();
         String addressNeighborhood = input.next();
 
         System.out.println("Número: ");

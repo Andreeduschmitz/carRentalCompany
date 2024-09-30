@@ -9,10 +9,9 @@ public class MainMenu {
 
 	public static void mainMenu(Connection con) throws SQLException {
 		int opcao;
-		System.out.println("Bem vindo à locadora Rossdeutscher!!!");
+		System.out.println("Bem vindo à D&N Car - Locações!!!");
 
 		do {
-			System.out.println("MENU PRINCIPAL");
 			System.out.println("Digite o serviço que deseja utilizar:");
 	        System.out.println("1 - Menu de cadastros");
 	        System.out.println("2 - Menu de alterações");
