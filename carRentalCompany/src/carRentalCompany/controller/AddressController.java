@@ -25,13 +25,13 @@ public class AddressController {
         
         System.out.println("CEP: ");
         int addressCep = input.nextInt();
+        input.nextLine();
 
         System.out.println("Rua: ");
-        String addressStreet = input.next();
+        String addressStreet = input.nextLine();
 
         System.out.println("Bairro: ");
-        input.nextLine();
-        String addressNeighborhood = input.next();
+        String addressNeighborhood = input.nextLine();
 
         System.out.println("Número: ");
         int addressNumber = input.nextInt();

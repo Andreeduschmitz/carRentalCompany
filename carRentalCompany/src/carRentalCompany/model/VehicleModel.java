@@ -81,11 +81,11 @@ public class VehicleModel {
 		String whereClause;
 		
 		if(vehicle.getVehiclePlate() != null) {
-			whereClause = " WHERE public.vehicle.vehicleplate LIKE ? AND public.vehicle.isactive = true;";
+			whereClause = " WHERE public.vehicle.vehicleplate ILIKE ? AND public.vehicle.isactive = true;";
 			ps = con.prepareStatement(selectClause + whereClause);
 			ps.setString(1, "%" + vehicle.getVehiclePlate() + "%");
 		} else if(vehicle.getVehicleModel() != null) {
-			whereClause = " WHERE public.vehicle.vehiclemodel LIKE ? AND public.vehicle.isactive = true;";
+			whereClause = " WHERE public.vehicle.vehiclemodel ILIKE ? AND public.vehicle.isactive = true;";
 			ps = con.prepareStatement(selectClause + whereClause);
 			ps.setString(1,"%" + vehicle.getVehicleModel() + "%");
 		} else if(vehicle.getVehicleCategory() != null) {
@@ -97,7 +97,7 @@ public class VehicleModel {
 			ps = con.prepareStatement(selectClause + whereClause);
 			ps.setDouble(1, vehicle.getDailyValue());
 		} else {
-			whereClause = " WHERE public.vehicle.vehiclebrand LIKE ? AND public.vehicle.isactive = true;";
+			whereClause = " WHERE public.vehicle.vehiclebrand ILIKE ? AND public.vehicle.isactive = true;";
 			ps = con.prepareStatement(selectClause + whereClause);
 			ps.setString(1,"%" + vehicle.getVehicleBrand() + "%");
 		}

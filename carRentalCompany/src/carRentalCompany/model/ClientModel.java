@@ -71,7 +71,7 @@ public class ClientModel {
 		String whereClause = " WHERE ";
 
 		if(name != null) {
-	        whereClause += "public.client.clientname LIKE ? AND public.client.isactive = true;";
+	        whereClause += "public.client.clientname ILIKE ? AND public.client.isactive = true;";
 	        ps = connection.prepareStatement(selectClause + whereClause);
 	        ps.setString(1, "%" + name + "%");
 		} else {

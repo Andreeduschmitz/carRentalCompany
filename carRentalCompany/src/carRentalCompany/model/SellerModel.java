@@ -73,7 +73,7 @@ public class SellerModel {
 		ArrayList<SellerBean> list = new ArrayList<SellerBean>();
 		
 		ps = con.prepareStatement("SELECT sellerid, sellername, sellerphone, selleremail"
-				+ " FROM public.seller WHERE public.seller.sellername LIKE ? AND public.seller.isactive = true;");
+				+ " FROM public.seller WHERE public.seller.sellername ILIKE ? AND public.seller.isactive = true;");
 		ps.setString(1,"%" + name + "%");
 		ResultSet result = ps.executeQuery();
 		
