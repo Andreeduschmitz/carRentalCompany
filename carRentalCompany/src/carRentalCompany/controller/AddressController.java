@@ -131,7 +131,7 @@ public class AddressController {
     	Scanner input = new Scanner(System.in);
     	
     	System.out.println("Digite o cpf do cliente que deseja listar os endereços");
-    	int cpf = input.nextInt();
+    	long cpf = input.nextLong();
     	
     	ClientBean client = Utils.selectClientBySearch(con, cpf, null);
     	

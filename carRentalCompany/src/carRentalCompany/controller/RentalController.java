@@ -191,14 +191,16 @@ public class RentalController {
 			return;
 		}
 		
-		System.out.println("Selecione a alocação desejada");
+		System.out.println("Selecione o número da alocação desejada");
+		int number = 1;
 		for(RentalBean rental : rentals) {
-			System.out.println(rental.toString());
+			System.out.println(number + " - " + rental.toString());
+			number++;
 		}
 		
-		int rentalIndex = Utils.indexSelector(0, rentals.size());
+		int rentalIndex = Utils.indexSelector(1, rentals.size() + 1);
 		
-		RentalBean rental = rentals.get(rentalIndex);
+		RentalBean rental = rentals.get(rentalIndex - 1);
 		int associatedRentalsAmount = RentalModel.countAssociatedRentals(rental, con);
 		
 		System.out.println("A quantidade de alocações/renovações associadas a essa alocação é de: " + (associatedRentalsAmount - 1));
